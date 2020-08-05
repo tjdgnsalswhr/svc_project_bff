@@ -1,0 +1,21 @@
+server:
+  port: 7070
+  error:
+    whitelabel:
+      enabled: false
+    include-exception: false
+    include-stacktrace: never
+spring:
+  #  profiles:
+  #    active: local
+  mvc:
+    view:
+      prefix: /WEB-INF/view/
+      suffix: .jsp
+    static-path-pattern: /resources/**
+  application:
+    name: svc-project-web-bff
+
+feign:
+  customer-api:
+    url: http://localhost:8181/

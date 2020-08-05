@@ -1,0 +1,444 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+  <meta charset="utf-8" />
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+  <title>
+    배달ONE
+  </title>
+  <meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0, shrink-to-fit=no" name="viewport" />
+  <!--     Fonts and icons     -->
+  <link href="https://fonts.googleapis.com/css?family=Montserrat:400,700,200" rel="stylesheet" />
+  <link href="https://maxcdn.bootstrapcdn.com/font-awesome/latest/css/font-awesome.min.css" rel="stylesheet">
+  <!-- CSS Files -->
+  <link href="../assets/css/bootstrap.min.css" rel="stylesheet" />
+  <link href="../assets/css/datepicker.min.css" rel="stylesheet" type="text/css">
+  <link href="../assets/css/paper-dashboard.css?v=2.0.0" rel="stylesheet" />
+  <!-- CSS Just for demo purpose, don't include it in your project -->
+  <link href="../assets/css/menu.css" rel="stylesheet"/>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+  <script src="../assets/js/core/bootstrap.min.js"></script>
+  <script src="../assets/js/datepicker.min.js"></script>
+  <script src="../assets/js/i18n/datepicker.en.js"></script>
+  <script src="../assets/js/plugins/perfect-scrollbar.jquery.min.js"></script>
+
+	<script src="../assets/js/information.js"></script>
+	<script src="../assets/js/information_modify.js"></script>
+</head>
+
+<body class="" onLoad="init_information_page();">
+	
+  <div class="wrapper ">
+    <div class="sidebar" data-color="white" data-active-color="info">
+      <!--
+        Tip 1: You can change the color of the sidebar using: data-color="blue | green | orange | red | yellow"
+    -->
+      <div class="logo">
+        <a href="#" class="simple-text logo-mini">
+          <div class="logo-image-small">
+            <img src="../assets/img/로고2.png">
+          </div>
+        </a>
+        <a href="#" class="simple-text logo-normal" style="font-weight: bold">
+          배달ONE
+          <!-- <div class="logo-image-big">
+            <img src="../assets/img/logo-big.png">
+          </div> -->
+        </a>
+      </div>
+      <div class="sidebar-wrapper" style="overflow-x: hidden; overflow-y: hidden">
+        <ul class="nav">
+          <li>
+            <a id="information_main_href_id" style="font-weight: bold">
+              <i class="nc-icon nc-delivery-fast"></i>
+              <p>주문현황</p>
+            </a>
+          </li>
+		  <li>
+            <a id="information_list_href_id" style="font-weight: bold">
+              <i class="nc-icon nc-bullet-list-67"></i>
+              <p>주문내역조회</p>
+            </a>
+          </li>
+		  <li class="active">
+            <a id="information_information_href_id" style="font-weight: bold">
+              <i class="nc-icon nc-badge"></i>
+              <p>가게정보</p>
+            </a>
+          </li>
+		  <li>
+            <a id="information_menu_href_id" style="font-weight: bold">
+              <i class="nc-icon nc-shop"></i>
+              <p>메뉴관리</p>
+            </a>
+          </li>
+        </ul>
+      </div>
+    </div>
+    <div class="main-panel">
+      <!-- Navbar -->
+      <nav class="navbar navbar-expand-lg navbar-absolute fixed-top navbar-transparent">
+        <div class="container-fluid">
+          <div class="navbar-wrapper">
+            <div class="navbar-toggle">
+              <button type="button" class="navbar-toggler">
+                <span class="navbar-toggler-bar bar1"></span>
+                <span class="navbar-toggler-bar bar2"></span>
+                <span class="navbar-toggler-bar bar3"></span>
+              </button>
+            </div>
+			  <a id="information_title_id" class="navbar-brand" style="font-weight: bold"></a>
+          </div>
+          <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navigation" aria-controls="navigation-index" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-bar navbar-kebab"></span>
+            <span class="navbar-toggler-bar navbar-kebab"></span>
+            <span class="navbar-toggler-bar navbar-kebab"></span>
+          </button>
+          <div class="collapse navbar-collapse justify-content-end" id="navigation">
+            
+            <ul class="navbar-nav">
+              <li class="nav-item d-none">
+                <a class="nav-link btn-magnify" href="#pablo">
+                  <i class="nc-icon nc-layout-11"></i>
+                  <p>
+                    <span class="d-lg-none d-md-block">Stats</span>
+                  </p>
+                </a>
+              </li>
+              <li class="nav-item btn-rotate dropdown d-none">
+                <a class="nav-link dropdown-toggle" href="http://example.com" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                  <i class="nc-icon nc-bell-55"></i>
+                  <p>
+                    <span class="d-lg-none d-md-block">Some Actions</span>
+                  </p>
+                </a>
+                <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdownMenuLink">
+                  <a class="dropdown-item" href="#">Action</a>
+                  <a class="dropdown-item" href="#">Another action</a>
+                  <a class="dropdown-item" href="#">Something else here</a>
+                </div>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link btn-rotate" href="login.html" style="font-weight: bold">
+                  로그아웃&nbsp;
+                  <i class="fa fa-sign-out"></i>
+                  <p>
+                    <span class="d-lg-none d-md-block">Account</span>
+                  </p>
+                </a>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </nav>
+      <!-- End Navbar -->
+      <!-- <div class="panel-header panel-header-sm">
+  
+  
+</div> -->
+
+
+
+      <div class="content">
+        <div class="row">
+          <div class="col-md-4">
+            <div class="card card-user">
+              <div class="image">
+                <img src="../assets/img/damir-bosnjak.jpg" alt="...">
+              </div>
+              <div class="card-body">
+                <div class="author">
+                  <!--<a href="#">-->
+                    <img id="store_profile" class="avatar border-gray" src="#" alt="...">
+                    <h5 id="store_name1" class="title"></h5>
+                  <!--</a>-->
+                </div>
+                <p class="description text-center">
+                  "어머니의 마음으로
+                  <br> 정성스럽게
+                  <br> 튀기겠습니다"
+                </p>
+              </div>
+              <div class="card-footer">
+                <hr>
+                <div class="button-container">
+                  <div class="row">
+                    <div class="col-lg-3 col-md-6 col-6 ml-auto">
+                      <h5>1200
+                        <br>
+                        <small>주문수</small>
+                      </h5>
+                    </div>
+                    <div class="col-lg-4 col-md-6 col-6 ml-auto mr-auto">
+                      <h5>250
+                        <br>
+                        <small>단골</small>
+                      </h5>
+                    </div>
+</div>
+                </div>
+              </div>
+            </div>
+            <div class="card"> </div>
+          </div>
+          <div class="col-md-8">
+            <div class="card card-user">
+              <div class="card-header">
+                <h5 class="card-title">가게정보</h5>
+              </div>
+              <div class="card-body">
+                <form id="form" enctype="multipart/form-data">
+                  <div class="row">
+                    <div class="pr-1 col-md-4">
+                      <div class="form-group">
+                        <label>사업자 등록번호</label>
+                        <input id="storemaster_num" type="text" class="form-control" disabled="">
+                      </div>
+                    </div>
+                    <div class="px-1 col-md-4">
+                      <div class="form-group">
+                        <label>상호명</label>
+                        <input id="store_name" type="text" class="form-control" >
+                      </div>
+                    </div>
+                    <div class="col-md-4 pl-1">
+                      <div class="form-group">
+                        <label>대표자명</label>
+                        <input id="storemaster_name" type="text" class="form-control" disabled="">
+                      </div>
+                    </div>
+                  </div>
+                  <div class="row">
+                    <div class="col-md-4 pr-1">
+                      <div class="form-group">
+                        <label>가게주소</label>
+                        <input id="store_address" type="text" class="form-control">
+                      </div>
+					  
+                    </div>
+					<div class="col-md-4 px-1">
+                      <div class="form-group">
+                        <label>가게번호</label>
+                        <input id="store_phone" type="text" class="form-control">
+                      </div>
+                    </div>
+                    <div class="col-md-4 pl-1">
+                      <div class="form-group">
+                        <label>최소 주문금액</label>
+                        <input id="cost_lower_bound" type="text" class="form-control">
+                      </div>
+                    </div>
+					
+					
+                  </div>
+                  <div class="row">
+                    <div class="col-md-3 pr-1">
+                      <div class="form-group">
+                        <label>오픈시간</label>
+                        <input id="start_work_time" type="text" class="form-control">
+                        <script>
+                          // Create start date
+                          var start = new Date(),
+                                  prevDay,
+                                  startHours = 0;
+
+                          // 09:00 AM
+                          start.setHours(9);
+                          start.setMinutes(0);
+
+                          // If today is Saturday or Sunday set 10:00 AM
+                          if ([6, 0].indexOf(start.getDay()) != -1) {
+                            start.setHours(10);
+                            startHours = 10
+                          }
+
+                          $('#start_work_time').datepicker({
+                            timepicker: true,
+                            onlyTimepicker : true,
+                            language: 'en',
+                            startDate: start,
+                            minHours: startHours,
+                            maxHours: 24,
+                            todayButton : new Date(),
+                            clearButton : true,
+                            autoClose : true,
+                            onSelect: function (fd, d, picker) {
+                              // Do nothing if selection was cleared
+                              if (!d) return;
+
+                              var day = d.getDay();
+
+                              // Trigger only if date is changed
+                              if (prevDay != undefined && prevDay == day) return;
+                              prevDay = day;
+
+                              // If chosen day is Saturday or Sunday when set
+                              // hour value for weekends, else restore defaults
+                              if (day == 6 || day == 0) {
+                                picker.update({
+                                  minHours: 10,
+                                  maxHours: 16
+                                })
+                              } else {
+                                picker.update({
+                                  minHours: 0,
+                                  maxHours: 24
+                                })
+                              }
+                            }
+                          })
+
+                        </script>
+                      </div>
+                    </div>
+                    <div class="col-md-3 px-1">
+                      <div class="form-group">
+                        <label>마감시간</label>
+                        <input id="end_work_time" type="text" class="form-control">
+                        <script>
+                          // Create start date
+                          var start = new Date(),
+                                  prevDay,
+                                  startHours = 0;
+
+                          // 09:00 AM
+                          start.setHours(9);
+                          start.setMinutes(0);
+
+                          // If today is Saturday or Sunday set 10:00 AM
+                          if ([6, 0].indexOf(start.getDay()) != -1) {
+                            start.setHours(10);
+                            startHours = 10
+                          }
+
+                          $('#end_work_time').datepicker({
+                            timepicker: true,
+                            onlyTimepicker : true,
+                            language: 'en',
+                            startDate: start,
+                            minHours: startHours,
+                            maxHours: 24,
+                            todayButton : new Date(),
+                            clearButton : true,
+                            autoClose : true,
+                            onSelect: function (fd, d, picker) {
+                              // Do nothing if selection was cleared
+                              if (!d) return;
+
+                              var day = d.getDay();
+
+                              // Trigger only if date is changed
+                              if (prevDay != undefined && prevDay == day) return;
+                              prevDay = day;
+
+                              // If chosen day is Saturday or Sunday when set
+                              // hour value for weekends, else restore defaults
+                              if (day == 6 || day == 0) {
+                                picker.update({
+                                  minHours: 10,
+                                  maxHours: 16
+                                })
+                              } else {
+                                picker.update({
+                                  minHours: 0,
+                                  maxHours: 24
+                                })
+                              }
+                            }
+                          })
+
+                        </script>
+                      </div>
+                    </div>
+
+                    <div class="col-md-3 px-1">
+                      <div class="form-group">
+                        <label>정기휴무</label>
+                        <select id="store_restday" type="text" class="form-control">
+                          <option>월요일</option>
+                          <option>화요일</option>
+                          <option>수요일</option>
+                          <option>목요일</option>
+                          <option>금요일</option>
+                          <option>토요일</option>
+                          <option>일요일</option>
+
+                        </select>
+                      </div>
+                    </div>
+                    <div class="col-md-3 pl-1">
+                      <div class="form-group">
+                        <label>배달비</label>
+                        <input id="delivery_cost" type="text" class="form-control">
+                      </div>
+                    </div>
+                  </div>
+                  <div class="row">
+                    <div class="col-md-12">
+                      <div class="form-group">
+                        <label>공지사항</label>
+
+                        <input id="store_notice" type="text" class="form-control">
+
+                      </div>
+                    </div>
+                  </div>
+				  <div class="row">
+                    <div class="col-md-12">
+                      <div class="form-group">
+                        <label>사진변경</label>
+
+         			   <input type="file" class="custom-file-input" id="FILE_TAG" name="FILE_TAG">
+                       <label class="custom-file-label text-info" style="font-weight: bold" for="FILE_TAG">사진 선택하기</label>
+                        <br>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="row">
+                    <div class="update ml-auto mr-auto">
+                      <button type="submit" id="btn_modify" class="btn btn-primary btn-round"> 수정하기 </button>
+                    </div>
+                  </div>
+                </form>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <footer class="footer footer-black  footer-white ">
+        <div class="container-fluid">
+          <div class="row">
+            <nav class="footer-nav">
+              <ul>
+                <li>
+                  <a href="https://github.com/jmingrove21/PyramidTop/" target="_blank">PyramidTop's Github</a>
+                </li>
+              </ul>
+            </nav>
+            <div class="credits ml-auto">
+              <span class="copyright">
+                ©
+                <script>
+                  document.write(new Date().getFullYear())
+                </script>, made with <i class="fa fa-star"></i> by PyramidTop
+              </span>
+            </div>
+          </div>
+        </div>
+      </footer>
+    </div>
+  </div>
+  <!--   Core JS Files   -->
+  <!--<script src="../assets/js/core/jquery.min.js"></script>-->
+  <!--<script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>-->
+  <script src="../assets/js/core/popper.min.js"></script>
+
+  <script src="../assets/js/plugins/bootstrap-notify.js"></script>
+  <!-- Control Center for Now Ui Dashboard: parallax effects, scripts for the example pages etc -->
+  <script src="../assets/js/paper-dashboard.min.js?v=2.0.0" type="text/javascript"></script>
+</body>
+
+</html>
