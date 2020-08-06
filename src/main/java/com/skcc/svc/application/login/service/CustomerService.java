@@ -24,6 +24,14 @@ public class CustomerService {
         }else{
             return null;
         }
-
     }
+    /*
+    public Object getOneCustomer(String cid)
+    {
+    	ResponseEntity<CustomerResponseDTO> customerResponseDTO = null;
+    	//if(customerClient.)
+    	
+    }
+    */
+    
 }

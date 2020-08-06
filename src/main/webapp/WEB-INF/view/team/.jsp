@@ -26,7 +26,7 @@
 <body onload="document.init.email.focus(); initial();">
 <div class="lowin lowin-red">
     <div class="lowin-brand">
-        <img src="/resources/assets/img/SVC로고4.png" alt="logo">
+        <img src="/resources//assets/img/SVC로고4.png" alt="logo">
     </div>
     <div class="lowin-wrapper">
         <div class="lowin-box lowin-login">

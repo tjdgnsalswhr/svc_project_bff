@@ -1,12 +1,12 @@
-var mId = '';
-var mPassword='';
-var store_name = '';
-var store_serial = '';
+var cid = '';
+var cpassword='';
+var cname = '';
+var code = '';
 
 
 
 function initial(){
-	history.pushState(null, null, "login.html");
+	history.pushState(null, null, "home");
 
 	window.onpopstate = function(event) {
 		history.go(1);
@@ -152,40 +152,36 @@ var Auth = {
 }
 
 
-function login4()
+function auth_login()
 {
-	mId=$("#store_id").val();
-	mPassword=$("#store_password").val();
+	cid=$("#customer_id").val();
+	cpassword=$("#customer_password").val();
 
 
 	var data = {
-		"store_info" : "login",
-		"store_id" : mId,
-		"store_password" : mPassword
+		"cid" : cid,
+		"cpassword" : cpassword,
+		"cname" : cname,
+		"code" : code
 	};
 	$.ajax({
-		url:"http://54.180.102.7:80/get/JSON/store_app/store_manage.php",
+		url:"http://localhost:8181/customer/auth",
 		type:"POST",
 		data: JSON.stringify(data),
-		contentType: "application/x-www-form-urlencoded; charset=UTF-8",
+		contentType: "application/json",
 		success: function(result) {
 			if (result)
 			{
-				var result1 = JSON.parse(result);
-				if(result1.confirm==1)
+				var authentication = JSON.parse(result);
+				if(authentication)
 				{
-					store_serial=result1.store_serial;
-					store_name=result1.store_name+" "+result1.store_branch_name;
-					location.href = "main.html?type="+store_name+"&"+store_serial;
-
-
-
-				}
-				else if (result1.confirm==0) {
-					alert("아이디/비밀번호가 틀렸습니다");
-					location.href = "login.html";
+					access_page();
 				}
 
+				else
+				{
+					alert("아이디 또는 비밀번호가 맞지 않습니다.")
+				}
 			} else {
 				alert("불러오기 실패");
 			}
@@ -196,6 +192,39 @@ function login4()
 
 	});
 	event.preventDefault();
+}
 
+function access_page()
+{
+	var data = {
+		"cid" : cid
+	};
+	$.ajax({
+		url:"http://localhost:8181/customer/info/{" + cid + "}",
+		type:"POST",
+		contentType: "application/json",
+		success: function(result) {
+			if (result)
+			{
+				alert(result);
+				var customer = JSON.parse(result);
+				if(customer.code=="1") //팀이면
+				{
+					alert("Team Customer");
+				}
+				else
+				{
+					alert("Owner Customer");
+				}
+			} else {
+				alert("불러오기 실패");
+			}
+		},
+		error: function(error){
+			alert(error);
+		}
+
+	});
+	event.preventDefault();
 }
 

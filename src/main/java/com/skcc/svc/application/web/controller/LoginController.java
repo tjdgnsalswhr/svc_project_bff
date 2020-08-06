@@ -1,4 +1,4 @@
-package com.skcc.svc.application.login.web;
+package com.skcc.svc.application.web.controller;
 
 import com.skcc.svc.application.login.service.CustomerService;
 import lombok.RequiredArgsConstructor;
