@@ -1,18 +1,14 @@
-var cid = '';
-var cpassword='';
-var cname = '';
-var code = '';
 
 
-
+/*
 function initial(){
 	history.pushState(null, null, "home");
 
 	window.onpopstate = function(event) {
 		history.go(1);
 	};
-	}
-
+}
+*/
 
 var Auth = {
 	vars: {
@@ -151,7 +147,7 @@ var Auth = {
 	}
 }
 
-
+/*
 function auth_login()
 {
 	cid=$("#customer_id").val();
@@ -228,3 +224,4 @@ function access_page()
 	event.preventDefault();
 }
 
+*/

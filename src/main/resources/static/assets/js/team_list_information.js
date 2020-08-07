@@ -6,8 +6,8 @@ var store_serial = '';
 var store_name = '';
 
 
-function init_list_page() {
-	var tmptmp = location.href.split("html")[1];
+function datepick() {
+	//var tmptmp = location.href.split("html")[1];
 	/*
 		if(tmptmp.length==0)
 		{
@@ -118,25 +118,11 @@ function init_list_page() {
 	start = year + "-" + month + "-" + day + " " + hour + ":" + minute + " " + temp;
 
 	//alert(end);
-
-
 	$("#pick_start").val(start);
 	$("#pick_end").val(end);
-	get_team_list_store_page();
-	get_team_list_information_page();
 	choose_datetime();
-	event.preventDefault();
 
 }
-
-function get_team_list_store_page() {
-	document.getElementById("team_list_store_href_id").href = "./team_list_store.html?type=" + store_name + "&" + store_serial;
-}
-
-function get_team_list_information_page() {
-	document.getElementById("team_list_information_href_id").href = "./team_list_information.html?type=" + store_name + "&" + store_serial;
-}
-
 
 function choose_datetime() {
 

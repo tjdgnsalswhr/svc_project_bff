@@ -20,24 +20,23 @@
     <!-- CSS Just for demo purpose, don't include it in your project -->
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.1.0/css/all.css"
         integrity="sha384-lKuwvrZot6UHsBSfcMvOkWwlCMgc0TaWr+30HWe3a4ltaBwTZhyTEggF5tJv8tbt" crossorigin="anonymous">
-    <script src="/resources/assets/assets/js/plugins/perfect-scrollbar.jquery.min.js"></script>
-    <script src="/resources/assets/assets/js/core/jquery.min.js"></script>
-    <script src="/resources/assets/assets/js/core/popper.min.js"></script>
-    <script src="/resources/assets/assets/js/core/bootstrap.min.js"></script>
-    <script src="/resources/assets/assets/js/team_list_store.js"></script>
-    
+    <script src="/resources/assets/js/plugins/perfect-scrollbar.jquery.min.js"></script>
+    <script src="/resources/assets/js/core/jquery.min.js"></script>
+    <script src="/resources/assets/js/core/popper.min.js"></script>
+    <script src="/resources/assets/js/core/bootstrap.min.js"></script>
+    <script src="/resources/assets/js/team_list_store.js"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
     <%
         //String tmbrCustDomain= (String)request.getAttribute("tmbrCustDomain");
         response.addHeader("Access-Control-Allow-Origin", "*");
         response.setHeader("Access-Control-Allow-Headers", "origin, x-requested-with, content-type, accept");
-        //String cid = request.getParameter(cid);
+        String cid = (String)request.getAttribute("cid");
     %>
 
 </head>
 
 
-<body class="" onLoad="init_menu_page();">
+<body class="" onLoad="init_team_list_store_page();">
     <div class="wrapper ">
       <div class="sidebar" data-color="white" data-active-color="danger">
         <!--
@@ -46,11 +45,11 @@
         <div class="logo">
           <a href="#" class="simple-text logo-mini">
             <div class="logo-image-small">
-              <img src="../assets/img/SVC로고4.png">
+              <img src="/resources/assets/img/SVC로고4.png">
             </div>
           </a>
           <a href="#" class="simple-text logo-normal" style="font-weight: bold">
-            SVC
+            SVC with SK
             <!-- <div class="logo-image-big">
               <img src="../assets/img/logo-big.png">
             </div> -->
@@ -65,7 +64,7 @@
               </a>
             </li>
             <li>
-              <a id="team_list_information_href_id" style="font-weight: bold">
+              <a id="team_list_info_href_id" style="font-weight: bold">
                 <i class="nc-icon nc-bullet-list-67"></i>
                 <p>정보조회</p>
               </a>
@@ -207,6 +206,36 @@
                   </ul>
   
                   <br>
+
+
+                  <!-------------------------------------가게 상세보기 모달------------------------------------>
+                  <div class="modal fade" id="StoreModal" tabindex="-1" role="dialog" aria-labelledby="StoreModalLabel" aria-hidden="true">
+                    <div class="modal-dialog">
+                      <div class="modal-content">
+                        <div class="modal-header">
+                          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">
+                            </span>
+                          </button>
+                            <h4 class="pull-left modal-title text-info" style="font-weight: bold" id="StoreModalLabel">
+                              가게 상세보기
+                            </h4>
+                        </div>
+                        <div class="modal-body">
+                            <p id="myModal_text">
+
+                            </p>
+                        </div>
+                          <div class="modal-footer">
+                          <button type="button" class="btn btn-secondary" data-dismiss="modal">
+                            닫기
+                          </button>
+                          </div>
+                      </div>
+                    </div>
+                  </div>
+
+
   
                   <!---------------------------------------------------------- 모달 팝업창 -------------------------------------------------------->
   
@@ -383,7 +412,83 @@
   
                     <!-------------------------------전체 메뉴 보기------------------------------------------------->
                     <div class="tab-pane fade show active" id="entire" role="tabpanel" aria-labelledby="entire-tab">
-                      <div class="row" id="menu_list_entrire_detail">
+                      <div class="row" id="store_list_entrire_detail">
+
+                        <!-------------------------------스토어카드, 재활용 가능 코드------------------------>
+                        <div id='store_code' class="col-md-3">
+                          <div class='box9'>
+                            <div class='card card-user'>
+                              
+                              <div class='card-header'>
+                                <div class="image">
+                                  <img class='embed-responsive' src="/resources/assets/img/SVC로고4.png" alt='...'>
+                                </div>
+                              </div>
+
+                              <div class="card-body">
+
+                                <div class="row">
+                                  <div class="col-md-12 text-left">
+                                    <div class="form-group">
+                                      <label class='text-danger' style="font-weight: bold;">
+                                        &nbsp;&nbsp;가게이름
+                                      </label>
+                                      <input id="store_code_name" type="text" class="form-control">
+                                    </div>
+                                  </div>
+                                </div>
+                                
+                                <div class="row">
+                                  <div class="col-md-12 text-left">
+                                    <div class="form-group">
+                                      <label class="text-danger" style="font-weight: bold;">
+                                        &nbsp;&nbsp;가게주소
+                                      </label>
+                                      <input id="store_code_address" type="text" class="form-control">
+                                    </div>
+                                  </div>
+                                </div>
+
+                                <div class="row">
+                                  <div class="col-md-12 text-left">
+                                    <div class="form-group">
+                                      <label class="text-danger" style="font-weight: bold;">
+                                        &nbsp;&nbsp;가게코드
+                                      </label>
+                                      <input id="store_code_code" type="text" class="form-control" disabled=''>
+                                    </div>
+                                  </div>
+                                </div>
+
+                              </div>
+
+                            </div>
+                            
+                            <div class="box-content">
+                              <div class="inner-content">
+                                <h3 class="title" style="font-weight: bold;">
+                                  상세보기
+                                </h3>
+                                
+                                
+                                <ui class='icon' style="display: table; margin-left: auto; margin-right: auto;">
+                                  <li style="cursor:pointer">
+                                    <i class="fa fa-list-alt" onclick="" data-toggle="modal" data-target='#StoreModal'>
+                                    </i>
+                                  </li>
+                                  &nbsp;&nbsp;
+                                  <li style="cursor: pointer;">
+                                    <i class="fa fa-trash-alt" onclick="detail_modal();" data-toggle="modal" date-target="#Menu_delete_Modal">
+                                    </i>
+                                  </li>
+                                </ui>
+
+
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                        <!------------------------------스토어 카드------------------>
   
                       </div>
                     </div>
@@ -447,9 +552,51 @@
           </div>
         </div>
         <!--   Core JS Files   -->
-        <script src="../assets/js/plugins/bootstrap-notify.js"></script>
+        <script>
+            var cid = "<%=cid%>";
+            alert(cid);
+
+
+            function init_team_list_store_page() {
+            //var tmptmp = location.href.split("html")[1];
+            /*
+            if(tmptmp.length==0)
+            {
+              alert("로그인이 필요합니다.")
+              location.href = "login.html";
+            }
+            
+            var tmp = location.href.split("?")[1].split("=")[1];
+            store_name = decodeURIComponent(tmp.split("&")[0]);
+            store_serial = tmp.split("&")[1]; //시리얼 넘버
+            document.getElementById("menu_title_id").innerHTML=store_name;
+            */
+            get_team_list_store_page();
+            get_team_list_information_page();
+            //menu_list();
+            event.preventDefault();
+            }
+            function get_team_list_store_page() {
+              document.getElementById("team_list_store_href_id").href = "../list-store/"+cid;
+            }
+
+            function get_team_list_information_page() {
+              document.getElementById("team_list_info_href_id").href = "../list-info/" + cid;
+            }
+
+            function detail_modal()
+            {
+              $("#StoreModal").modal('show');
+            }
+
+            //console.log("tt");
+
+        </script>
+
+
+        <script src="/resources/assets/js/plugins/bootstrap-notify.js"></script>
         <!-- Control Center for Now Ui Dashboard: parallax effects, scripts for the example pages etc -->
-        <script src="../assets/js/paper-dashboard.min.js?v=2.0.0" type="text/javascript"></script>
+        <script src="/resources/assets/js/paper-dashboard.min.js?v=2.0.0" type="text/javascript"></script>
   </body>
   
 

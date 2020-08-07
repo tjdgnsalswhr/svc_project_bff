@@ -17,6 +17,7 @@
         response.addHeader("Access-Control-Allow-Origin", "*");
         response.setHeader("Access-Control-Allow-Headers", "origin, x-requested-with, content-type, accept");
         List customerList = (List) request.getAttribute("custList");
+        String cid;
 
     %>
 
@@ -90,6 +91,96 @@
 <script src="/resources/assets/js/login.js"></script>
 
 <script>
+    var cid = '';
+    var cpassword='';
+    var cname = '';
+    var code = '';
+
+    function initial(){
+        history.pushState(null, null, "home");
+
+        window.onpopstate = function(event) {
+            history.go(1);
+        };
+        }
+
+    function auth_login()
+    {
+        cid=$("#customer_id").val();
+        cpassword=$("#customer_password").val();
+
+
+        var data = {
+            "cid" : cid,
+            "cpassword" : cpassword,
+            "cname" : cname,
+            "code" : code
+        };
+        $.ajax({
+            url:"http://localhost:8181/customer/auth",
+            type:"POST",
+            data: JSON.stringify(data),
+            contentType: "application/json",
+            success: function(result) {
+                if (result)
+                {
+                    var authentication = result;
+                    if(authentication)
+                    {
+                        access_page();
+                    }
+                } else {
+                    alert("아이디 또는 비밀번호가 맞지 않습니다.")
+                }
+            },
+            error: function(error){
+                alert(error);
+            }
+
+        });
+        event.preventDefault();
+    }
+
+    function access_page()
+    {
+        var data = {
+            "cid" : cid
+        };
+        $.ajax({
+            url:"http://localhost:8181/customer/info/" +cid,
+            type:"GET",
+            contentType: "application/json",
+            success: function(result) {
+                if (result)
+                {
+                    //alert(result);
+                    //var customer = JSON.parse(result);
+                    if(result.code=="1") //팀이면
+                    {
+                        alert("Team Customer");
+                        //window.location.href = "http://localhost:7070/team/list-store/"+cid;
+                        location.href = "../team/list-store/"+cid;
+                    }
+                    else
+                    {
+                        alert("Owner Customer");
+                    }
+                } else {
+                    alert("불러오기 실패");
+                }
+            },
+            error: function(error){
+                alert(error);
+            }
+
+        });
+        event.preventDefault();
+
+    }
+
+</script>
+
+<script>
 	Auth.init({
 		login_url: '#login',
 		forgot_url: '#forgot'
@@ -98,6 +189,8 @@
     const customerList = "<%=customerList%>";
     console.log(customerList);
 </script>
+
+
 
 </body>
 

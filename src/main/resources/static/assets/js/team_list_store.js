@@ -210,7 +210,7 @@ function menu_list() {
 
 
 function init_menu_page() {
-	var tmptmp = location.href.split("html")[1];
+	//var tmptmp = location.href.split("html")[1];
 	/*
 	if(tmptmp.length==0)
 	{
@@ -230,13 +230,6 @@ function init_menu_page() {
 
 }
 
-function get_team_list_store_page() {
-	document.getElementById("team_list_store_href_id").href = "./team_list_store.html?type=" + store_name + "&" + store_serial;
-}
-
-function get_team_list_information_page() {
-	document.getElementById("team_list_information_href_id").href = "./team_list_information.html?type=" + store_name + "&" + store_serial;
-}
 
 var menu_img_create = '';
 
