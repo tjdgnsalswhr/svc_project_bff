@@ -19,3 +19,7 @@ spring:
 feign:
   customer-api:
     url: http://localhost:8181/
+  store-api:
+    url: http://localhost:8182/
+  order-api:
+    url: http://localhost:8183/

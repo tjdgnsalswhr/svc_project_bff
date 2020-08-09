@@ -19,7 +19,7 @@ public class LoginController {
 
     @GetMapping("/login/home")
     public ModelAndView loginPate(Model model){
-        List<Object> customerList = customerService.getAllData();
+        List<Object> customerList = customerService.getAllCustomerData();
 
         ModelAndView modelAndView = new ModelAndView("login/loginhome");
         modelAndView.addObject("custList", customerList);

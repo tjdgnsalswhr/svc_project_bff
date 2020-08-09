@@ -28,6 +28,7 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
     <%
         //String tmbrCustDomain= (String)request.getAttribute("tmbrCustDomain");
+    	List storeList = (List) request.getAttribute("storeList");
         response.addHeader("Access-Control-Allow-Origin", "*");
         response.setHeader("Access-Control-Allow-Headers", "origin, x-requested-with, content-type, accept");
         String cid = (String)request.getAttribute("cid");
@@ -555,8 +556,11 @@
         <script>
             var cid = "<%=cid%>";
             alert(cid);
-
-
+            
+            const storeList = "<%=storeList.get(0)%>";
+            alert(storeList);
+			var temp = "<%=storeList.getStorename()%>";
+			alert(storename);
             function init_team_list_store_page() {
             //var tmptmp = location.href.split("html")[1];
             /*

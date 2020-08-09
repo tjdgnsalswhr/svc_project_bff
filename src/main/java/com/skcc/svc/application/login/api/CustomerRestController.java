@@ -20,6 +20,6 @@ public class CustomerRestController {
 
     @GetMapping("/all")
     public List<Object> getAllInfo(){
-        return customerService.getAllData();
+        return customerService.getAllCustomerData();
     }
 }

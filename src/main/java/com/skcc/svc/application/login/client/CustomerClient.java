@@ -1,6 +1,7 @@
 package com.skcc.svc.application.login.client;
 
 import org.springframework.cloud.openfeign.FeignClient;
+
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 
@@ -8,7 +9,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 public interface CustomerClient {
 	
     @GetMapping(value="/customer/info/all")
-    public ResponseEntity<Object> getAllStore();
+    public ResponseEntity<Object> getAllCustomer();
     
     @GetMapping(value="/customer/info/")
     public ResponseEntity<Object> getOneCustomer();

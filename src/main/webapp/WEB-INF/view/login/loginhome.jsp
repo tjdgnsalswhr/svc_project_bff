@@ -13,7 +13,7 @@
     
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
     <%
-        String tmbrCustDomain= (String)request.getAttribute("tmbrCustDomain");
+        //String tmbrCustDomain= (String)request.getAttribute("tmbrCustDomain");
         response.addHeader("Access-Control-Allow-Origin", "*");
         response.setHeader("Access-Control-Allow-Headers", "origin, x-requested-with, content-type, accept");
         List customerList = (List) request.getAttribute("custList");

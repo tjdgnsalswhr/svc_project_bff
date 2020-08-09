@@ -9,6 +9,8 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.skcc.svc.application.login.service.CustomerService;
+import com.skcc.svc.application.login.service.StoreInfoService;
+import com.skcc.svc.application.login.vo.StoreResponseDTO;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -18,11 +20,14 @@ import lombok.extern.slf4j.Slf4j;
 @RequiredArgsConstructor
 public class TeamListStoreController {
 
-    private final CustomerService customerService;
+    private final StoreInfoService storeService;
 
     @GetMapping("/team/list-store/{cid}")
     public ModelAndView TeamListStorePage(Model model, @PathVariable String cid){
+    	
+    	List<StoreResponseDTO> storeList = storeService.getAllStore();
         ModelAndView modelAndView = new ModelAndView("team/team_list_store");
+        modelAndView.addObject("storeList", storeList);
         modelAndView.addObject("cid", cid);
         return modelAndView;
     }
