@@ -1,5 +1,6 @@
 <%--<%@ page import="java.util.HashMap" %>--%>
 <%@ page import="java.util.List" %>
+<%@ page import="com.skcc.svc.application.login.vo.*"%>
 <%@ page language="java" contentType="text/html; charset=utf-8" pageEncoding="utf-8"%>
 <%-- <% request.setAttribute("webUrl", "/resources"); %> --%>
 <%@taglib prefix="spring" uri="http://www.springframework.org/tags"%>
@@ -27,11 +28,17 @@
     <script src="/resources/assets/js/team_list_information.js"></script>
 
     <%
-        //String tmbrCustDomain= (String)request.getAttribute("tmbrCustDomain");
-        response.addHeader("Access-Control-Allow-Origin", "*");
-        response.setHeader("Access-Control-Allow-Headers", "origin, x-requested-with, content-type, accept");
-        //List customerList = (List) request.getAttribute("custList");
-        String cid = (String)request.getAttribute("cid");
+        
+  	  List<BalanceInfoResponseDTO> balanceInfoList = (List<BalanceInfoResponseDTO>) request.getAttribute("balanceInfoList");
+      List<OrderResponseDTO> orderInfoList = (List<OrderResponseDTO>) request.getAttribute("orderInfoList");
+      response.addHeader("Access-Control-Allow-Origin", "*");
+      response.setHeader("Access-Control-Allow-Headers", "origin, x-requested-with, content-type, accept");
+      String cid = (String)request.getAttribute("cid");
+      CustomerResponseDTO customerInfo = (CustomerResponseDTO) request.getAttribute("customerInfo");
+      List<String> storeNameList = (List<String>) request.getAttribute("storeNameList");
+      List<String> storeNameListForOrder = (List<String>) request.getAttribute("storeNameListForOrder");
+      List<String> customerNameListForOrder = (List<String>) request.getAttribute("customerNameListForOrder");
+      
     %>
 
 </head>
@@ -84,7 +91,7 @@
                                 <span class="navbar-toggler-bar bar3"></span>
                             </button>
                         </div>
-                        <a id="list_title_id" class="navbar-brand" style="font-weight: bold"></a>
+                        <a id="list_title_id" class="navbar-brand text-danger" style="font-weight: bold"><%=customerInfo.getCname()%></a>
                     </div>
                     <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navigation"
                         aria-controls="navigation-index" aria-expanded="false" aria-label="Toggle navigation">
@@ -145,6 +152,44 @@
                                 <hr class="one">
                             </div>
                             <div class="card-body">
+                            	<div class="table-responsive" style="overflow-x: hidden; overflow-y: hidden">
+                  					<table class="table">
+                    					<thead class="text-danger">
+                      						<th>
+                        						팀이름
+                      						</th>
+
+                      						<th>
+                        						가게이름
+                      						</th>
+
+                      						<th>
+                        						잔여선불금액
+                      						</th>
+                      						<th>
+                        						총선불금액
+                     						</th>
+                    					</thead>		
+
+
+                      					<tbody>
+                      						<%for(int i=0; i<balanceInfoList.size(); i++)
+                      						{
+                      							BalanceInfoResponseDTO balanceInfo = balanceInfoList.get(i);
+												                      						
+                      						%>
+                      						<tr>
+                      							<td><%=customerInfo.getCname()%></td>
+                      							<td><%=storeNameList.get(i) %></td>
+												<td><%=balanceInfo.getRemainmoney()%></td>
+												<td><%=balanceInfo.getTotalmoney()%></td>
+											</tr>
+											<%
+											}%>
+                    					</tbody>
+
+                  					</table>
+                				</div>
 
                             </div>
                         </div>
@@ -156,41 +201,16 @@
                         <div class="card">
                             <div class="card-header">
                                 <h4 class="card-title">과거 내역 조회</h4>
-                                <hr class="one">
-                            </div>
-                            <div class="card-body">
-
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-
-            <div class="content">
-                <div class="row">
-                    <div class="col-md-12">
-                        <div class="card">
-                            <div class="card-header">
-                                <h4 class="card-title">과거 내역 조회</h4>
-                                <hr class="one">
-                            </div>
-                            <div class="card-body">
-                                <div class="row">
-                                    <div class="col-md-12">
-                                        <div class="card">
-                                            <div class="card-header">
-                                                <h4 class="card-title">
-                                                    과거 내역
-                                                </h4>
-                                                <div class="row">
-                                                    <div class="col-md-3">
-                                                        <div class="form-group">
-                                                            <label>시작일</label>
-                                                            <input id="pick_start" type="text" class="form-control"
-                                                                autocomplete="off">
-
-                                                            <script>
+ 
+                                	<div class="row">
+                                		<div class="col-md-4 align-self-end invisible">
+                                            <button type='button' class='btn btn-outline-danger'> 조회하기 </button>
+                                        </div>
+                                       <div class="col-md-3">
+                                          <div class="form-group">
+                                             <label>시작일</label>
+                                                <input id="pick_start" type="text" class="form-control" autocomplete="off">
+												   <script>
                                                                 // Create start date
                                                                 var start = new Date(),
                                                                     prevDay,
@@ -240,16 +260,16 @@
                                                                         }
                                                                     }
                                                                 })
-                                                            </script>
-                                                        </div>
-                                                    </div>
-                                                    <div class="col-md-3">
-                                                        <div class="form-group">
-                                                            <label>종료일</label>
-                                                            <input id="pick_end" type="text" class="form-control"
+                                                       </script>
+                                                  </div>
+                                                </div>
+                                              <div class="col-md-3">
+                                                <div class="form-group">
+                                                   <label>종료일</label>
+                                                     <input id="pick_end" type="text" class="form-control"
                                                                 autocomplete="off">
 
-                                                            <script>
+                                                        <script>
                                                                 // Create start date
                                                                 var start = new Date(),
                                                                     prevDay,
@@ -299,151 +319,54 @@
                                                                         }
                                                                     }
                                                                 })
-                                                            </script>
-                                                        </div>
-                                                    </div>
+                                                         </script>
+                                                     </div>
+                                                  </div>
 
-                                                    <div class="col-md-2 align-self-end">
-                                                        <button type='button' class='btn btn-outline-danger'
+                                                 <div class="col-md-2 align-self-end">
+                                                   <button type='button' class='btn btn-outline-danger'
                                                             onclick="choose_datetime()"> 조회하기 </button>
-                                                    </div>
+                                                   </div>
                                                 </div>
-                                            </div>
-
-
-                                            <div class="card-body">
-
-
-                                                <ul class="nav nav-tabs mr-auto nav-justified" id="myHistoryTab"
-                                                    role="tablist">
-                                                    <li class="nav-item active">
-                                                        <a class="nav-link active text-danger"
-                                                            style="font-weight: bold; font-size: medium" id="entire-tab"
-                                                            data-toggle="tab" href="#entire" role="tab"
-                                                            aria-controls="entire" aria-selected="true">전체</a>
-                                                    </li>
-                                                    <li class="nav-item">
-                                                        <a class="nav-link text-danger"
-                                                            style="font-weight: bold; font-size: medium" id="charge-tab"
-                                                            data-toggle="tab" href="#charge" role="tab"
-                                                            aria-controls="charge" aria-selected="false">충전</a>
-                                                    </li>
-                                                    <li class="nav-item">
-                                                        <a class="nav-link text-danger"
-                                                            style="font-weight: bold; font-size: medium" id="use-tab"
-                                                            data-toggle="tab" href="#use" role="tab" aria-controls="use"
-                                                            aria-selected="false">결제</a>
-                                                    </li>
-                                                </ul>
-                                                <br>
-                                            </div>
-
-                                            <div class="tab-content" id="myHistoryTabContent">
-                                                <!-------------------------------전체 메뉴 보기------------------------------------------------->
-                                                <div class="tab-pane fade show active" id="entire" role="tabpanel"
-                                                    aria-labelledby="entire-tab">
-                                                    <div class="col-md-12" id="entire_detail">
-                                                        <div class="table-responsive"
-                                                            style="overflow-x: hidden; overflow-y: hidden">
-                                                            <table class="table">
-                                                                <thead class="text-danger">
-                                                                    <th>
-                                                                        팀 이름
-                                                                    </th>
-                                                                    <th>
-                                                                        가게 이름
-                                                                    </th>
-                                                                    <th>
-                                                                        금액
-                                                                    </th>
-                                                                    <th>
-                                                                        날짜
-                                                                    </th>
-                                                                    <th>
-                                                                        남은 금액
-                                                                    </th>
-                                                                </thead>
-                                                                <tbody id="customer_entire_list">
-                                                                </tbody>
-                                                            </table>
-                                                        </div>
-                                                    </div>
-                                                </div>
-
-                                                <!------------------------------메인 메뉴 보기------------------------------------------------->
-
-                                                <div class="tab-pane fade" id="charge" role="tabpanel"
-                                                    aria-labelledby="charge-tab">
-                                                    <div class="col-md-12" id="charge_detail">
-                                                        <div class="table-responsive"
-                                                            style="overflow-x: hidden; overflow-y: hidden">
-                                                            <table class="table">
-                                                                <thead class="text-danger">
-                                                                    <th>
-                                                                        팀 이름
-                                                                    </th>
-                                                                    <th>
-                                                                        가게 이름
-                                                                    </th>
-                                                                    <th>
-                                                                        금액
-                                                                    </th>
-                                                                    <th>
-                                                                        날짜
-                                                                    </th>
-                                                                    <th>
-                                                                        남은 금액
-                                                                    </th>
-                                                                </thead>
-                                                                <tbody id="customer_charge_list">
-                                                                </tbody>
-                                                            </table>
-                                                        </div>
-                                                    </div>
-                                                </div>
-
-                                                <!-------------------------------사이드 메뉴 보기------------------------------------------------->
-
-                                                <div class="tab-pane fade" id="use" role="tabpanel"
-                                                    aria-labelledby="use-tab">
-                                                    <div class="col-md-12" id="use_detail">
-                                                        <div class="table-responsive"
-                                                            style="overflow-x: hidden; overflow-y: hidden">
-                                                            <table class="table">
-                                                                <thead class="text-danger">
-                                                                    <th>
-                                                                        팀 이름
-                                                                    </th>
-                                                                    <th>
-                                                                        가게 이름
-                                                                    </th>
-                                                                    <th>
-                                                                        금액
-                                                                    </th>
-                                                                    <th>
-                                                                        날짜
-                                                                    </th>
-                                                                    <th>
-                                                                        남은 금액
-                                                                    </th>
-                                                                </thead>
-                                                                <tbody id="customer_use_list">
-                                                                </tbody>
-                                                            </table>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-
-            </div>
-                                        </div>
-                                    </div>
-                                </div>
+                                   
+                            
                             </div>
+                            <hr class="one">
+                            <div class="card-body">
+                            	<div class="table-responsive" style="overflow-x: hidden; overflow-y: hidden">
+                  					<table class="table">
+                    					<thead class="text-danger">
+                      						<th>
+                        						팀이름
+                      						</th>
+
+                      						<th>
+                        						가게이름
+                      						</th>
+
+                      						<th>
+                        						금액
+                      						</th>
+                      						<th>
+                        						날짜
+                     						</th>
+                    					</thead>		
+
+
+                      					<tbody id="past_list">
+
+                    					</tbody>
+
+                  					</table>
+                				</div>
+                         	</div>
                         </div>
                     </div>
                 </div>
             </div>
+<!-- ------------------------------------------------------------- -->
+
+            
             <footer class="footer footer-black  footer-white ">
                 <div class="container-fluid">
                     <div class="row">
@@ -485,6 +408,14 @@
     <script>
         var cid = "<%=cid%>";
         alert(cid);
+        var temp = "<%=balanceInfoList%>";
+        alert(temp);
+        var temp2 = "<%=orderInfoList%>";
+        alert(temp2);
+        var temp3 = "<%=customerNameListForOrder%>";
+        alert(temp3);
+        var temp4 = "<%=storeNameListForOrder%>";
+        alert(temp4);
         
         function init_team_list_info_page()
         {
