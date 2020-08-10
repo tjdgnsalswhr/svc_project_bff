@@ -95,7 +95,7 @@
 		forgot_url: '#forgot'
 	});
     console.log("tt");
-    const customerList = "<%=customerList%>";
+    
     console.log(customerList);
 </script>
 

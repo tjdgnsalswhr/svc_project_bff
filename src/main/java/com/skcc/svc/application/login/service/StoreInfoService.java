@@ -44,6 +44,19 @@ public class StoreInfoService {
     		return null;
     		
     }
+
+
+    public StoreResponseDTO getOneStore(String sid)
+    {
+    	ResponseEntity<StoreResponseDTO> storeResponseDTO = null;
+    	log.info(storeClient.getOneStore(sid).getBody().toString());
+        if(storeClient.getOneStore(sid).getStatusCode().is2xxSuccessful())
+        {
+            return (StoreResponseDTO) storeClient.getOneStore(sid).getBody();
+        }
+        else
+        	return null;
+    }
     /*
     public Object getOneCustomer(String cid)
     {

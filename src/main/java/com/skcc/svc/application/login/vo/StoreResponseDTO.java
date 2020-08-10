@@ -1,5 +1,6 @@
 package com.skcc.svc.application.login.vo;
 
+
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -19,6 +20,6 @@ public class StoreResponseDTO {
 	String address;
 	String openinfo;
 	String phonenumber;
-	String storecode;
+	int storecode;
 	int earnings;
 }

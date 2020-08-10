@@ -1,5 +1,6 @@
 <%--<%@ page import="java.util.HashMap" %>--%>
 <%@ page import="java.util.List" %>
+<%@ page import="com.skcc.svc.application.login.vo.*"%>
 <%@ page language="java" contentType="text/html; charset=utf-8" pageEncoding="utf-8"%>
 <%-- <% request.setAttribute("webUrl", "/resources"); %> --%>
 <%@taglib prefix="spring" uri="http://www.springframework.org/tags"%>
@@ -28,10 +29,12 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
     <%
         //String tmbrCustDomain= (String)request.getAttribute("tmbrCustDomain");
-    	List storeList = (List) request.getAttribute("storeList");
+    	  List<StoreResponseDTO> storeList = (List<StoreResponseDTO>) request.getAttribute("storeList");
         response.addHeader("Access-Control-Allow-Origin", "*");
         response.setHeader("Access-Control-Allow-Headers", "origin, x-requested-with, content-type, accept");
         String cid = (String)request.getAttribute("cid");
+        CustomerResponseDTO customerInfo = (CustomerResponseDTO) request.getAttribute("customerInfo");
+        
     %>
 
 </head>
@@ -85,7 +88,7 @@
                   <span class="navbar-toggler-bar bar3"></span>
                 </button>
               </div>
-              <a id="menu_title_id" class="navbar-brand" style="font-weight: bold"></a>
+              <a id="menu_title_id" class="navbar-brand text-danger" style="font-weight: bold"><%=customerInfo.getCname()%></a>
             </div>
             <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navigation"
               aria-controls="navigation-index" aria-expanded="false" aria-label="Toggle navigation">
@@ -143,41 +146,9 @@
                 <div class="card-header">
   
                   <h4 class="card-title">
-                    가게 목록 조회
+                   		 가게 목록 조회
                   </h4>
-                  <div class="row">
-                    <div class="col-md-2 align-self-center invisible pr-5">
-                      <form class="form-inline align-self-center">
-                        <input class="form-control mr-lg-2" type="text" placeholder="Search" aria-label="Search">
-                        <button class="btn btn-outline-success btn-round btn-sm my-0" type="button">Search</button>
-                      </form>
-                    </div>
-  
-                    <div class="col-md-4 align-self-center invisible pull-right">
-                      <form class="form-inline align-self-center">
-                        <input class="form-control mr-lg-2" type="text" placeholder="Search" aria-label="Search">
-                        <button class="btn btn-outline-success btn-round btn-sm my-0" type="button">Search</button>
-                      </form>
-                    </div>
-  
-  
-                    <div class="col-md-4 align-self-center invisible pr-0 pl-5 pull-right">
-                      <form class="form-inline mr-auto invisible">
-                        <input class="form-control mr-sm-2 invisible" type="text" placeholder="Search"
-                          aria-label="Search">
-                        <button class="btn btn-outline-success btn-round btn-sm my-0 invisible"
-                          type="button">Search</button>
-                      </form>
-                    </div>
-  
-                    <div class="col-md-2 align-self-center text-right pl-0">
-                      <div class="button">
-                        <button type='button' class="btn btn-round btn-outline-success btn-sm" data-toggle="modal"
-                          data-target="#Menu_create_Modal"> 메뉴추가 </button>
-                      </div>
-                    </div>
-  
-                  </div>
+
                 </div>
                 <div class="card-body">
   
@@ -189,20 +160,20 @@
                     </li>
                     <li class="nav-item">
                       <a class="nav-link text-danger" style="font-weight: bold; font-size: medium" id="koreanmenu-tab"
-                        data-toggle="tab" href="#korean" role="tab" aria-controls="mainmenu" aria-selected="false">한식</a>
+                        data-toggle="tab" href="#korean" role="tab" aria-controls="korean" aria-selected="false">한식</a>
                     </li>
                     <li class="nav-item">
                       <a class="nav-link text-danger" style="font-weight: bold; font-size: medium" id="chinesemenu-tab"
-                        data-toggle="tab" href="#chinese" role="tab" aria-controls="sidemenu" aria-selected="false">중식</a>
+                        data-toggle="tab" href="#chinese" role="tab" aria-controls="chinese" aria-selected="false">중식</a>
                     </li>
                     <li class="nav-item">
                       <a class="nav-link text-danger" style="font-weight: bold; font-size: medium" id="japanesemenu-tab"
-                        data-toggle="tab" href="#japanese" role="tab" aria-controls="drinkmenu"
+                        data-toggle="tab" href="#japanese" role="tab" aria-controls="japanese"
                         aria-selected="false">일식</a>
                     </li>
                     <li class="nav-item">
                       <a class="nav-link text-danger" style="font-weight: bold; font-size: medium" id="etcmenu-tab"
-                        data-toggle="tab" href="#etc" role="tab" aria-controls="etcmenu" aria-selected="false">기타</a>
+                        data-toggle="tab" href="#etc" role="tab" aria-controls="etc" aria-selected="false">기타</a>
                     </li>
                   </ul>
   
@@ -219,11 +190,48 @@
                             </span>
                           </button>
                             <h4 class="pull-left modal-title text-info" style="font-weight: bold" id="StoreModalLabel">
-                              가게 상세보기
+                              		가게 상세보기
                             </h4>
                         </div>
                         <div class="modal-body">
                             <p id="myModal_text">
+
+                              <div class="col-md-12">
+                                <label class="text-danger" style="font-weight: bold">가게사진<br></label>
+                                <hr>
+                                <div class="image text-center" style="height: auto; width: auto">
+                                  <img src="/resources/assets/img/SVC로고4.png" class="img-thumbnail" id="modal_menu_picture">
+                                </div>
+                                <hr>
+                              </div>
+
+                              <div class="col-md-12">
+                                <div class="form-group">
+                                  <label class="text-danger" style="font-weight: bold">가게이름</label>
+                                  <input id="modal_store_name" type="text" class="form-control">
+                                </div>
+                              </div>
+
+                              <div class="col-md-12">
+                                <div class="form-group">
+                                  <label class="text-danger" style="font-weight: bold">가게주소</label>
+                                  <input id="modal_store_address" type="text" class="form-control">
+                                </div>
+                              </div>
+                              
+                              <div class="col-md-12">
+                                <div class="form-group">
+                                  <label class="text-danger" style="font-weight: bold">가게번호</label>
+                                  <input id="modal_store_phone" type="text" class="form-control">
+                                </div>
+                              </div>
+
+                              <div class="col-md-12">
+                                <div class="form-group">
+                                  <label class="text-danger" style="font-weight: bold">영업정보</label>
+                                  <input id="modal_store_more_info" type="text" class="form-control">
+                                </div>
+                              </div>
 
                             </p>
                         </div>
@@ -356,7 +364,7 @@
                             <hr>
                           </div>
   
-                          <div class="col-md-12 d-none">
+                          <div class="col-md-12">
                             <div class="form-group">
                               <label class="text-primary" style="font-weight: bold">가게시리얼</label>
                               <input id="modal_create_store_serial" type="text" class="form-control">
@@ -410,12 +418,80 @@
                   <!--------------------------------------------------------------------------------------->
   
                   <div class="tab-content" id="myTabContent">
-  
+                  
                     <!-------------------------------전체 메뉴 보기------------------------------------------------->
                     <div class="tab-pane fade show active" id="entire" role="tabpanel" aria-labelledby="entire-tab">
-                      <div class="row" id="store_list_entrire_detail">
+                      <div class="row" id="store_list_entire_detail">
 
-                        <!-------------------------------스토어카드, 재활용 가능 코드------------------------>
+                        <% for(int i=0; i<storeList.size(); i++)
+                        {
+                          StoreResponseDTO store = storeList.get(i);
+                            %>
+                            <div class="col-md-3">
+                              <div class='box9'>
+                                <div class='card card-user'>
+                                  
+                                  <div class='card-header'>
+                                    <div class="image">
+                                      <img class='embed-responsive' src="/resources/assets/img/SVC로고4.png" alt='...'>
+                                    </div>
+                                  </div>
+    
+                                  <div class="card-body">
+    
+                                    <div class="row">
+                                      <div class="col-md-12 text-left">
+                                        <div class="form-group">
+                                          <label class='text-danger' style="font-weight: bold;">
+                                            &nbsp;&nbsp;가게이름
+                                          </label>
+                                          <input id="store_name" type="text" class="form-control" value="<%=store.getStorename()%>">
+                                        </div>
+                                      </div>
+                                    </div>
+                                    
+                                    <div class="row">
+                                      <div class="col-md-12 text-left">
+                                        <div class="form-group">
+                                          <label class="text-danger" style="font-weight: bold;">
+                                            &nbsp;&nbsp;가게주소
+                                          </label>
+                                          <input id="store_address" type="text" class="form-control" value="<%=store.getAddress()%>">
+                                        </div>
+                                      </div>
+                                    </div>
+    
+
+                                    
+                                  </div>
+    
+                                </div>
+                                
+                                <div class="box-content">
+                                  <div class="inner-content">
+                                    <h3 class="title" style="font-weight: bold;">
+                                      상세보기
+                                    </h3>
+                                    
+                                    
+                                    <ui class='icon' style="display: table; margin-left: auto; margin-right: auto;">
+                                      <li style="cursor:pointer">
+                                        <i id="<%=store.getSid()%>" class="fa fa-list-alt" onclick="detail_modal(this.id);" data-toggle="modal" data-target='#StoreModal'>
+                                        </i>
+                                      </li>
+                                    </ui>
+    
+    
+                                  </div>
+                                </div>
+                              </div>
+                            </div>
+                            
+                            <%
+                            }%>
+
+                        
+                        <!-------------------------------스토어카드, 재활용 가능 코드------------------------
                         <div id='store_code' class="col-md-3">
                           <div class='box9'>
                             <div class='card card-user'>
@@ -489,35 +565,321 @@
                             </div>
                           </div>
                         </div>
-                        <!------------------------------스토어 카드------------------>
+                        ----------------------------스토어 카드------------------>
   
                       </div>
                     </div>
   
                     <!------------------------------메인 메뉴 보기------------------------------------------------->
   
-                    <div class="tab-pane fade" id="koreanmenu" role="tabpanel" aria-labelledby="koreanmenu-tab">
+                    <div class="tab-pane fade" id="korean" role="tabpanel" aria-labelledby="koreanmenu-tab">
                       <div class="row" id="store_list_korean_detail">
+                        <% for(int i=0; i<storeList.size(); i++)
+                        {
+                          StoreResponseDTO store = storeList.get(i);
+                          int code = store.getStorecode();
+                          if(code==2)
+                          {
+                            %>
+                            <div class="col-md-3">
+                              <div class='box9'>
+                                <div class='card card-user'>
+                                  
+                                  <div class='card-header'>
+                                    <div class="image">
+                                      <img class='embed-responsive' src="/resources/assets/img/SVC로고4.png" alt='...'>
+                                    </div>
+                                  </div>
+    
+                                  <div class="card-body">
+    
+                                    <div class="row">
+                                      <div class="col-md-12 text-left">
+                                        <div class="form-group">
+                                          <label class='text-danger' style="font-weight: bold;">
+                                            &nbsp;&nbsp;가게이름
+                                          </label>
+                                          <input id="store_name" type="text" class="form-control" value="<%=store.getStorename()%>">
+                                        </div>
+                                      </div>
+                                    </div>
+                                    
+                                    <div class="row">
+                                      <div class="col-md-12 text-left">
+                                        <div class="form-group">
+                                          <label class="text-danger" style="font-weight: bold;">
+                                            &nbsp;&nbsp;가게주소
+                                          </label>
+                                          <input id="store_address" type="text" class="form-control" value="<%=store.getAddress()%>">
+                                        </div>
+                                      </div>
+                                    </div>
+                                    
+                                  </div>
+    
+                                </div>
+                                
+                                <div class="box-content">
+                                  <div class="inner-content">
+                                    <h3 class="title" style="font-weight: bold;">
+                                      상세보기
+                                    </h3>
+                                    
+                                    
+                                    <ui class='icon' style="display: table; margin-left: auto; margin-right: auto;">
+                                      <li style="cursor:pointer">
+                                        <i id="<%=store.getSid()%>" class="fa fa-list-alt" onclick="detail_modal(this.id);" data-toggle="modal" data-target='#StoreModal'>
+                                        </i>
+                                      </li>
+                                    </ui>
+    
+    
+                                  </div>
+                                </div>
+                              </div>
+                            </div>
+                            
+                            <%
+                            }}%>
+    
+
+
                       </div>
                     </div>
   
                     <!-------------------------------사이드 메뉴 보기------------------------------------------------->
   
-                    <div class="tab-pane fade" id="chinesemenu" role="tabpanel" aria-labelledby="chinesemenu-tab">
+                    <div class="tab-pane fade" id="chinese" role="tabpanel" aria-labelledby="chinesemenu-tab">
                       <div class="row" id="store_list_chinese_detail">
+
+                        <% for(int i=0; i<storeList.size(); i++)
+                        {
+                          StoreResponseDTO store = storeList.get(i);
+                          int code = store.getStorecode();
+                          if(code==1)
+                          {
+                            %>
+                            <div class="col-md-3">
+                              <div class='box9'>
+                                <div class='card card-user'>
+                                  
+                                  <div class='card-header'>
+                                    <div class="image">
+                                      <img class='embed-responsive' src="/resources/assets/img/SVC로고4.png" alt='...'>
+                                    </div>
+                                  </div>
+    
+                                  <div class="card-body">
+    
+                                    <div class="row">
+                                      <div class="col-md-12 text-left">
+                                        <div class="form-group">
+                                          <label class='text-danger' style="font-weight: bold;">
+                                            &nbsp;&nbsp;가게이름
+                                          </label>
+                                          <input id="store_name" type="text" class="form-control" value="<%=store.getStorename()%>">
+                                        </div>
+                                      </div>
+                                    </div>
+                                    
+                                    <div class="row">
+                                      <div class="col-md-12 text-left">
+                                        <div class="form-group">
+                                          <label class="text-danger" style="font-weight: bold;">
+                                            &nbsp;&nbsp;가게주소
+                                          </label>
+                                          <input id="store_address" type="text" class="form-control" value="<%=store.getAddress()%>">
+                                        </div>
+                                      </div>
+                                    </div>
+    
+    
+                                    
+                                  </div>
+    
+                                </div>
+                                
+                                <div class="box-content">
+                                  <div class="inner-content">
+                                    <h3 class="title" style="font-weight: bold;">
+                                      상세보기
+                                    </h3>
+                                    
+                                    
+                                    <ui class='icon' style="display: table; margin-left: auto; margin-right: auto;">
+                                      <li style="cursor:pointer">
+                                        <i id="<%=store.getSid()%>" class="fa fa-list-alt" onclick="detail_modal(this.id);" data-toggle="modal" data-target='#StoreModal'>
+                                        </i>
+                                      </li>
+                                    </ui>
+    
+    
+                                  </div>
+                                </div>
+                              </div>
+                            </div>
+                            
+                            <%
+                            }}%>
+
+                        
+    
                       </div>
                     </div>
   
                     <!-------------------------------중식 메뉴 보기 -------------------------------------------------->
   
-                    <div class="tab-pane fade" id="japanesemenu" role="tabpanel" aria-labelledby="japanesemenu-tab">
+                    <div class="tab-pane fade" id="japanese" role="tabpanel" aria-labelledby="japanesemenu-tab">
                       <div class="row" id="store_list_japanese_detail">
+                        
+                        <% for(int i=0; i<storeList.size(); i++)
+                        {
+                          StoreResponseDTO store = storeList.get(i);
+                          int code = store.getStorecode();
+                          if(code==3)
+                          {
+                            %>
+                            <div class="col-md-3">
+                              <div class='box9'>
+                                <div class='card card-user'>
+                                  
+                                  <div class='card-header'>
+                                    <div class="image">
+                                      <img class='embed-responsive' src="/resources/assets/img/SVC로고4.png" alt='...'>
+                                    </div>
+                                  </div>
+    
+                                  <div class="card-body">
+    
+                                    <div class="row">
+                                      <div class="col-md-12 text-left">
+                                        <div class="form-group">
+                                          <label class='text-danger' style="font-weight: bold;">
+                                            &nbsp;&nbsp;가게이름
+                                          </label>
+                                          <input id="store_name" type="text" class="form-control" value="<%=store.getStorename()%>">
+                                        </div>
+                                      </div>
+                                    </div>
+                                    
+                                    <div class="row">
+                                      <div class="col-md-12 text-left">
+                                        <div class="form-group">
+                                          <label class="text-danger" style="font-weight: bold;">
+                                            &nbsp;&nbsp;가게주소
+                                          </label>
+                                          <input id="store_address" type="text" class="form-control" value="<%=store.getAddress()%>">
+                                        </div>
+                                      </div>
+                                    </div>
+    
+                                    
+                                  </div>
+    
+                                </div>
+                                
+                                <div class="box-content">
+                                  <div class="inner-content">
+                                    <h3 class="title" style="font-weight: bold;">
+                                      상세보기
+                                    </h3>
+                                    
+                                    
+                                    <ui class='icon' style="display: table; margin-left: auto; margin-right: auto;">
+                                      <li style="cursor:pointer">
+                                        <i id="<%=store.getSid()%>" class="fa fa-list-alt" onclick="detail_modal(this.id);" data-toggle="modal" data-target='#StoreModal'>
+                                        </i>
+                                      </li>
+                                    </ui>
+    
+    
+                                  </div>
+                                </div>
+                              </div>
+                            </div>
+                            
+                            <%
+                            }}%>
+    
+
+
                       </div>
                     </div>
   
   
-                    <div class="tab-pane fade" id="etcmenu" role="tabpanel" aria-labelledby="etcmenu-tab">
+                    <div class="tab-pane fade" id="etc" role="tabpanel" aria-labelledby="etcmenu-tab">
                       <div class="row" id="store_list_etc_detail">
+
+                        <% for(int i=0; i<storeList.size(); i++)
+                        {
+                          StoreResponseDTO store = storeList.get(i);
+                          int code = store.getStorecode();
+                          if(code==4)
+                          {
+                            %>
+                            <div class="col-md-3">
+                              <div class='box9'>
+                                <div class='card card-user'>
+                                  
+                                  <div class='card-header'>
+                                    <div class="image">
+                                      <img class='embed-responsive' src="/resources/assets/img/SVC로고4.png" alt='...'>
+                                    </div>
+                                  </div>
+    
+                                  <div class="card-body">
+    
+                                    <div class="row">
+                                      <div class="col-md-12 text-left">
+                                        <div class="form-group">
+                                          <label class='text-danger' style="font-weight: bold;">
+                                            &nbsp;&nbsp;가게이름
+                                          </label>
+                                          <input id="store_name" type="text" class="form-control" value="<%=store.getStorename()%>">
+                                        </div>
+                                      </div>
+                                    </div>
+                                    
+                                    <div class="row">
+                                      <div class="col-md-12 text-left">
+                                        <div class="form-group">
+                                          <label class="text-danger" style="font-weight: bold;">
+                                            &nbsp;&nbsp;가게주소
+                                          </label>
+                                          <input id="store_address" type="text" class="form-control" value="<%=store.getAddress()%>">
+                                        </div>
+                                      </div>
+                                    </div>
+  
+                                    
+                                  </div>
+    
+                                </div>
+                                
+                                <div class="box-content">
+                                  <div class="inner-content">
+                                    <h3 class="title" style="font-weight: bold;">
+                                      상세보기
+                                    </h3>
+                                    
+                                    
+                                    <ui class='icon' style="display: table; margin-left: auto; margin-right: auto;">
+                                      <li style="cursor:pointer">
+                                        <i id="<%=store.getSid()%>" class="fa fa-list-alt" onclick="detail_modal(this.id);" data-toggle="modal" data-target='#StoreModal'>
+                                        </i>
+                                      </li>
+                                    </ui>
+    
+    
+                                  </div>
+                                </div>
+                              </div>
+                            </div>
+                            
+                            <%
+                            }}%>
+    
+
                       </div>
                     </div>
                   </div>
@@ -555,12 +917,13 @@
         <!--   Core JS Files   -->
         <script>
             var cid = "<%=cid%>";
-            alert(cid);
+            //alert(cid);
+            
+           	var temp = "<%=customerInfo.getCname()%>"
+           	//alert(temp);
             
             const storeList = "<%=storeList.get(0)%>";
             alert(storeList);
-			var temp = "<%=storeList.getStorename()%>";
-			alert(storename);
             function init_team_list_store_page() {
             //var tmptmp = location.href.split("html")[1];
             /*
@@ -578,6 +941,7 @@
             get_team_list_store_page();
             get_team_list_information_page();
             //menu_list();
+
             event.preventDefault();
             }
             function get_team_list_store_page() {
@@ -588,8 +952,32 @@
               document.getElementById("team_list_info_href_id").href = "../list-info/" + cid;
             }
 
-            function detail_modal()
+            function detail_modal(storeid)
             {
+
+              alert(storeid);
+              $.ajax({
+                  url:"http://localhost:8182/store/info/" + storeid,
+                  type:"GET",
+                  contentType: "application/json",
+                  success: function(result) {
+                      if (result)
+                      {
+                        $("#modal_store_name").val(result.storename);
+                        $("#modal_store_address").val(result.address);
+                        $("#modal_store_phone").val(result.phonenumber);
+                        $("#modal_store_more_info").val(result.openinfo);
+
+                      } else {
+                          alert("아이디 또는 비밀번호가 맞지 않습니다.")
+                      }
+                  },
+                  error: function(error){
+                      alert(error);
+                  }
+
+              });
+              event.preventDefault();
               $("#StoreModal").modal('show');
             }
 

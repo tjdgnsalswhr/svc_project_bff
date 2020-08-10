@@ -5,6 +5,7 @@ import java.util.List;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 
 import com.skcc.svc.application.login.vo.StoreResponseDTO;
 
@@ -14,7 +15,7 @@ public interface StoreClient {
     @GetMapping(value="/store/info/all")
     public ResponseEntity<List<StoreResponseDTO>> getAllStore();
     
-    @GetMapping(value="/store/info/")
-    public ResponseEntity<Object> getOneStore();
+    @GetMapping(value="/store/info/{sid}")
+    public ResponseEntity<StoreResponseDTO> getOneStore(@PathVariable String sid);
     
 }

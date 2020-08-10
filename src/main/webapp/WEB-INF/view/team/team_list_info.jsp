@@ -32,7 +32,6 @@
         response.setHeader("Access-Control-Allow-Headers", "origin, x-requested-with, content-type, accept");
         //List customerList = (List) request.getAttribute("custList");
         String cid = (String)request.getAttribute("cid");
-
     %>
 
 </head>
@@ -142,17 +141,39 @@
                     <div class="col-md-12">
                         <div class="card">
                             <div class="card-header">
-                                <h4 class="card-title"> 금액 정보 조회</h4>
+                                <h4 class="card-title">선불 잔액 조회</h4>
                                 <hr class="one">
-                                <div class="row">
-                                    <div class="col-md-12">
-                                        <div class="card">
-                                            <div class="col-md-6">
-                                                <h4>총 선불충전</h4>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
+                            </div>
+                            <div class="card-body">
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="card">
+                            <div class="card-header">
+                                <h4 class="card-title">과거 내역 조회</h4>
+                                <hr class="one">
+                            </div>
+                            <div class="card-body">
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+
+            <div class="content">
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="card">
+                            <div class="card-header">
+                                <h4 class="card-title">과거 내역 조회</h4>
+                                <hr class="one">
                             </div>
                             <div class="card-body">
                                 <div class="row">
@@ -287,8 +308,6 @@
                                                             onclick="choose_datetime()"> 조회하기 </button>
                                                     </div>
                                                 </div>
-
-
                                             </div>
 
 
@@ -415,56 +434,8 @@
                                                     </div>
                                                 </div>
                                             </div>
-                                            <!---
-                     <div class="card-body">
-                       <div class="table-responsive" style="overflow-x: hidden; overflow-y: hidden">
-                         <table class="table">
-                           <thead class="text-danger">
-                             <th>
-   
-                               주문시간
-   
-                             </th>
-   
-                             <th>
-   
-                               주문자
-   
-                             </th>
-   
-                             <th>
-   
-                               메뉴
-   
-                             </th>
-   
-                             <th>
-   
-                               도착시간
-   
-                             </th>
-   
-                             <th>
-   
-                               주소
-   
-                             </th>
-   
-                             <th>
-   
-                               가격
-   
-                             </th>
-   
-                           </thead>
-   
-   
-                           <tbody id="past_list">
-                           </tbody>
-                         </table>
-                       </div>
-                     </div>
-                   -->
+
+            </div>
                                         </div>
                                     </div>
                                 </div>
@@ -500,19 +471,12 @@
                                     document.write(new Date().getFullYear())
 
                                 </script>, made with <i class="fa fa-star"></i> by Digital Poc Intern
-
                             </span>
-
                         </div>
-
                     </div>
-
                 </div>
-
             </footer>
-
         </div>
-
     </div>
     </div>
     </div>
@@ -521,7 +485,7 @@
     <script>
         var cid = "<%=cid%>";
         alert(cid);
-
+        
         function init_team_list_info_page()
         {
             get_team_list_store_page();
