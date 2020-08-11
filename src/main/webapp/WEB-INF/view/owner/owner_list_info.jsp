@@ -30,6 +30,8 @@
     <%
 	    List<CustomerResponseDTO> teamList = (List<CustomerResponseDTO>) request.getAttribute("TeamList");
 	    String cid = (String)request.getAttribute("cid");
+	    String sid = (String)request.getAttribute("sid");
+	    String sname = (String)request.getAttribute("sname");
 	    response.addHeader("Access-Control-Allow-Origin", "*");
 	    response.setHeader("Access-Control-Allow-Headers", "origin, x-requested-with, content-type, accept");
 	    CustomerResponseDTO ownerInfo = (CustomerResponseDTO) request.getAttribute("owner");
@@ -146,10 +148,14 @@
                                 <h4 class="card-title">과거 내역 조회</h4>
  
                                 	<div class="row">
-                                		<div class="col-md-4 align-self-end invisible">
-                                            <button type='button' class='btn btn-outline-danger'> 조회하기 </button>
-                                        </div>
-                                       <div class="col-md-3">
+                                		<div class="col-md-3">
+                                			<div class="form-group">
+                                				<label>이번달 수익</label>
+                                				<input id="month_earnings" type="text" class="form-control text-success" autocomplete="off">
+                                			</div>
+                                		</div>
+                               
+                                       	<div class="col-md-3">
                                           <div class="form-group">
                                              <label>시작일</label>
                                                 <input id="pick_start" type="text" class="form-control" autocomplete="off">
@@ -267,8 +273,8 @@
                                                   </div>
 
                                                  <div class="col-md-2 align-self-end">
-                                                   <button type='button' class='btn btn-outline-danger'
-                                                            onclick="choose_datetime()"> 조회하기 </button>
+                                                   <button type='button' class='btn btn-outline-success'
+                                                            onclick="get_choice_date_order();"> 조회하기 </button>
                                                    </div>
                                                 </div>
                                    
@@ -279,24 +285,25 @@
                             	<div class="table-responsive" style="overflow-x: hidden; overflow-y: hidden">
                   					<table class="table">
                     					<thead class="text-danger">
-                      						<th>
-                        						팀이름
-                      						</th>
-
-                      						<th>
+                      						<th class="text-center">
                         						가게이름
                       						</th>
-
-                      						<th>
+                      						<th class="text-center">
+                        						팀이름
+                      						</th>
+                      						<th class="text-center">
                         						금액
                       						</th>
-                      						<th>
+                      						<th class="text-center">
+                        						유형
+                      						</th>
+                      						<th class="text-center">
                         						날짜
                      						</th>
                     					</thead>		
 
 
-                      					<tbody id="past_list">
+                      					<tbody id="orderListTable">
 
                     					</tbody>
 
@@ -352,6 +359,7 @@
         var cid = "<%=cid%>";
         alert(cid);
 		var teamlist = "<%=teamList%>"
+		var sid = "<%=sid%>"
 		alert(teamlist);
         
         function init_owner_list_info_page()
@@ -359,6 +367,7 @@
             get_owner_list_team_page();
             get_owner_list_information_page();
             datepick();
+           	//get_choice_date_order();
 	        event.preventDefault();
         }
 
@@ -369,6 +378,252 @@
         function get_owner_list_information_page() {
             document.getElementById("owner_list_info_href_id").href = "../list-info/" + cid;
         }
+        
+        
+        
+        function get_choice_date_order()
+        {
+        	
+        	$.ajax({
+    			url:"http://localhost:8182/store/info/bystoreid/" + sid,
+                type:"GET",
+                contentType: "application/json",
+                success: function(result)
+                {
+                	if(result)
+                	{
+                		alert(result.earnings);
+                		$("#month_earnings").val(result.earnings);
+                		
+                	}
+                }
+    		});
+        	
+        	
+        	
+        	$("#orderListTable").empty();
+        	var start_date = $("#pick_start").val();
+        	//alert(start_date);
+        	var end_date = $("#pick_end").val();
+        	//alert(end_date);
+        	var from_date = start_date.split(" ")[0];
+        	//alert(from_date);
+        	var to_date = end_date.split(" ")[0];
+        	//alert(to_date);
+
+        	var from_time = start_date.split(" ")[1];
+        	//alert(from_time);
+        	var end_time = end_date.split(" ")[1];
+        	//alert(end_time);
+
+        	var from_ampm = start_date.split(" ")[2];
+        	var end_ampm = end_date.split(" ")[2];
+
+        	//alert(from_ampm);
+        	//alert(end_ampm);
+
+        	if(from_ampm=="pm")
+        	{
+        		var temp = from_time.split(":")[0];
+        		if(temp=="01")
+        			temp = "13";
+        		else if(temp=="02")
+        			temp = "14";
+        		else if(temp=="03")
+        			temp = "15";
+        		else if(temp=="04")
+        			temp = "16";
+        		else if(temp=="05")
+        			temp = "17";
+        		else if(temp=="06")
+        			temp = "18";
+        		else if(temp=="07")
+        			temp = "19";
+        		else if(temp=="08")
+        			temp = "20";
+        		else if(temp=="09")
+        			temp = "21";
+        		else if(temp=="10")
+        			temp = "22";
+        		else if(temp=="11")
+        			temp = "23";
+
+        		from_time = temp + ":" + from_time.split(":")[1];
+        		//alert(from_time);
+
+        	}
+
+        	if(from_ampm=="am")
+        	{
+        		var temp = from_time.split(":")[0];
+        		if(temp=="12")
+        			temp = "00";
+        		else if(temp=="1")
+        			temp = "01";
+        		else if(temp=="2")
+        			temp = "02";
+        		else if(temp=="3")
+        			temp = "03";
+        		else if(temp=="4")
+        			temp = "04";
+        		else if(temp=="5")
+        			temp = "05";
+        		else if(temp=="6")
+        			temp = "06";
+        		else if(temp=="7")
+        			temp = "07";
+        		else if(temp=="8")
+        			temp = "08";
+        		else if(temp=="9")
+        			temp = "09";
+        		else
+        			;
+        		from_time = temp + ":" + from_time.split(":")[1];
+        	}
+
+        	from_time = from_time + ":" + "00";
+
+        	//alert(from_time);
+
+        	if(end_ampm=="pm")
+        	{
+        		var temp = end_time.split(":")[0];
+        		if(temp=="01")
+        			temp = "13";
+        		else if(temp=="02")
+        			temp = "14";
+        		else if(temp=="03")
+        			temp = "15";
+        		else if(temp=="04")
+        			temp = "16";
+        		else if(temp=="05")
+        			temp = "17";
+        		else if(temp=="06")
+        			temp = "18";
+        		else if(temp=="07")
+        			temp = "19";
+        		else if(temp=="08")
+        			temp = "20";
+        		else if(temp=="09")
+        			temp = "21";
+        		else if(temp=="10")
+        			temp = "22";
+        		else if(temp=="11")
+        			temp = "23";
+
+        		end_time = temp + ":" + end_time.split(":")[1];
+        		//alert(end_time);
+
+        	}
+
+        	if(end_ampm=="am")
+        	{
+        		var temp = end_time.split(":")[0];
+        		if(temp=="12")
+        			temp = "00";
+        		else if(temp=="1")
+        			temp = "01";
+        		else if(temp=="2")
+        			temp = "02";
+        		else if(temp=="3")
+        			temp = "03";
+        		else if(temp=="4")
+        			temp = "04";
+        		else if(temp=="5")
+        			temp = "05";
+        		else if(temp=="6")
+        			temp = "06";
+        		else if(temp=="7")
+        			temp = "07";
+        		else if(temp=="8")
+        			temp = "08";
+        		else if(temp=="9")
+        			temp = "09";
+        		else
+        			;
+        		end_time = temp + ":" + end_time.split(":")[1];
+        	}
+
+        	end_time = end_time + ":" + "00";
+
+        	//alert(end_time);
+        	
+
+        	from_date = from_date + "T" + from_time;
+        	to_date = to_date + "T" + end_time;
+        	
+        	//LocalDateTime from = LocalDateTime.parse(from_date);
+        	
+  
+            $.ajax({
+                url:"http://localhost:8183/order/store/list/" + sid + "/"  +from_date + "/" + to_date,
+                type:"GET",
+                contentType: "application/json",
+                success: function(result) {
+                    if (result)
+                    {
+                    	$.each(result, function(key,value)
+                    	{
+                    		var storename = "<%=sname%>";
+                    		var teamid = value.teamid;
+                    		var money = value.money;
+                    		var date = value.orderdate;
+                    		var type = value.ordertype;
+                    		var orderid = value.orderid;
+                    		var teamname='';
+                    		$.ajax({
+                    			url:"http://localhost:8181/customer/info/" + teamid,
+                                type:"GET",
+                                contentType: "application/json",
+                                success: function(result)
+                                {
+                                	if(result)
+                                	{
+                                		teamname = result.cname;
+                                		//alert(teamname);
+                                		//alert(storename);
+                                		//alert(money);
+                                		//alert(type);
+                                		//alert(date);
+                                		
+                                	}
+                                }
+                    		});
+                    		var temp = "<tr id=\"";
+                    		temp = temp + orderid + "\"" + ">";
+                    		temp = temp + "<td class=\"text-center\" style=\"font-weight: bold\">"+ storename +"</td>";
+                    		temp = temp + "<td class=\"text-center\" style=\"font-weight: bold\">"+ teamname +"</td>";
+                    		if(type=="1")
+                    		{
+                    			temp = temp + "<td class=\"text-primary text-center\" style=\"font-weight: bold\">"+money+"</td>";
+                    			temp = temp + "<td class=\"text-center\"><button type=\"button\" class=\"btn btn-primary btn-sm\">충전 </button></td>";
+                    		}
+                    		else
+                    		{
+                    			temp = temp + "<td class=\"text-danger text-center\" style=\"font-weight: bold\">"+money+"</td>";
+                    			temp = temp + "<td class=\"text-center\"><button type=\"button\" class=\"btn btn-danger btn-sm\">결제 </button></td>";
+                    		}
+                    		temp = temp + "<td class=\"text-center\">"+ date +"</td>";
+                    		temp = temp + "</tr>"
+                    		$("#orderListTable").append(temp);
+                    	});
+
+                    } else {
+                        alert("아이디 또는 비밀번호가 맞지 않습니다.")
+                    }
+                },
+                error: function(error){
+                    alert(error);
+                }
+
+            });
+            event.preventDefault();
+            //$("#StoreModal").modal('show');
+
+	
+
+        }
+
     </script>
 
 

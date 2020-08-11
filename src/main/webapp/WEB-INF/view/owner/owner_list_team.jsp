@@ -30,6 +30,8 @@
     <%
       List<CustomerResponseDTO> teamList = (List<CustomerResponseDTO>) request.getAttribute("TeamList");
       String cid = (String)request.getAttribute("cid");
+      String sid = (String)request.getAttribute("sid");
+	  String sname = (String)request.getAttribute("sname");
       response.addHeader("Access-Control-Allow-Origin", "*");
       response.setHeader("Access-Control-Allow-Headers", "origin, x-requested-with, content-type, accept");
       CustomerResponseDTO ownerInfo = (CustomerResponseDTO) request.getAttribute("owner");
@@ -146,47 +148,42 @@
                             <div class="card-header">
                                 <h4 class="card-title">팀 목록</h4>
                                 <hr class="one">
+                                <div class="row">
+                                	<div class="col-md-12 align-self-center pull-right">
+                    					<form class="col-md-12 form-inline align-self-center">
+                      						<input class="form-control mr-lg-2" type="text" placeholder="Search" aria-label="Search">
+                      						<button class="btn btn-outline-success btn-round btn-sm my-0" type="button">Search</button>
+                    					</form>
+                  					</div>
+                                 
+                                    <div class="col-md-4 align-self-end d-none">
+                                       <button type='button' class='btn btn-outline-success'> 팀 추가 </button>
+                                    </div>
+                                </div>
+                                
                             </div>
                             <div class="card-body">
                             	<div class="table-responsive" style="overflow-x: hidden; overflow-y: hidden">
                   					<table class="table">
                     					<thead class="text-danger">
-                      						<th>
+                      						<th class="text-center">
                         						팀이름
                       						</th>
-                      						<th>
+                      						<th class="text-center">
                         						잔여선불금액
                       						</th>
-                      						<th>
+                      						<th class="text-center">
                         						총선불금액
                       						</th>
-                      						<th>
-                        						충전
+                      						<th class="text-center">
+                        						잔액충전
                      						</th>
-                     						<th>
-                     							사용
+                     						<th class="text-center">
+                     							잔액사용
                      						</th>
                     					</thead>		
-                      					<tbody>
-                      					<%for(int i=0; i<balanceInfoList.size(); i++)
-                      						{
-                      							BalanceInfoResponseDTO balanceInfo = balanceInfoList.get(i);
-												                      						
-                      						%>
-                      						<tr>
-                      							<td><%=customerNameList.get(i) %></td>
-												<td><%=balanceInfo.getRemainmoney()%></td>
-												<td><%=balanceInfo.getTotalmoney()%></td>
-												<td class='text-left'>
-													<button type='button' class='btn btn-primary btn-sm' onclick=''  data-toggle="modal" data-target='#Balance_Charge_Modal'>충전하기</button>
-												</td>
-												<td class='text-left'>
-													<button type='button' class='btn btn-danger btn-sm' onclick=''  data-toggle="modal" data-target='#Balance_Use_Modal'>사용하기</button>
-												</td>
-												
-											</tr>
-											<%
-											}%>
+                      					<tbody id="balanceInfoTable">
+                      
            
                     					</tbody>
 
@@ -214,10 +211,18 @@
                         <div class="col-md-12">
                           <div class="form-group">
                             <label class="text-primary" style="font-weight: bold">충전 금액 입력</label>
-                            <input id="modal_charge_balance_code" type="text" class="form-control">
+                            <input id="modal_charge_balance_amount" type="text" class="form-control">
                           </div>
                           <br>
                         </div>
+                        
+                        <div class="col-md-12 d-none">
+                            <div class="form-group">
+                              <label class="text-primary" style="font-weight: bold">메뉴가격</label>
+                              <input id="cid_for_charge" type="text" class="form-control">
+                            </div>
+                        </div>
+                          
                         <div class="col-md-12">
                           <br>
                           <h6 style="font-weight: bold">해당 가격을 충전하시겠습니까?</h6>
@@ -225,7 +230,7 @@
                       </div>
                       <div class="modal-footer" style="height: 60px;">
                         <button style="font-weight: bold" type="button" class="btn btn-default" data-dismiss="modal">취소</button>
-                        <button style="font-weight: bold" type="button" class="btn btn-primary" onclick="">확인</button>
+                        <button id="charge_button" style="font-weight: bold" type="button" class="btn btn-primary" onclick="balance_charge();">확인</button>
                       </div>
                     </div>
                   </div>
@@ -243,10 +248,17 @@
                         <div class="col-md-12">
                           <div class="form-group">
                             <label class="text-danger" style="font-weight: bold">사용 금액 입력</label>
-                            <input id="modal_use_balance_code" type="text" class="form-control">
+                            <input id="modal_use_balance_amount" type="text" class="form-control">
                           </div>
                           <br>
                         </div>
+                        <div class="col-md-12 d-none">
+                            <div class="form-group">
+                              <label class="text-primary" style="font-weight: bold">메뉴가격</label>
+                              <input id="cid_for_use" type="text" class="form-control">
+                            </div>
+                        </div>
+                        
                         <div class="col-md-12">
                           <br>
                           <h6 style="font-weight: bold">해당 가격을 사용하시겠습니까?</h6>
@@ -254,7 +266,7 @@
                       </div>
                       <div class="modal-footer" style="height: 60px;">
                         <button style="font-weight: bold" type="button" class="btn btn-default" data-dismiss="modal">취소</button>
-                        <button style="font-weight: bold" type="button" class="btn btn-primary" onclick="">확인</button>
+                        <button style="font-weight: bold" type="button" class="btn btn-primary" onclick="balance_use();">확인</button>
                       </div>
                     </div>
                   </div>
@@ -303,13 +315,191 @@
 
     <script>
         var cid = "<%=cid%>";
-        alert(cid);
+        var sid = "<%=sid%>";
+        var storename = "<%=sname%>";
+        
+        function cid_setting_charge(teamid)
+        {
+        	$("#cid_for_charge").val(teamid);
+        }
+        
+        
+        function cid_setting_use(teamid)
+        {
+        	$("#cid_for_use").val(teamid);
+        }
+        
+        function balance_charge()
+        {
+        	///balance/info/charge/{cid}/{sid}/{amount}
+        	var teamid = $("#cid_for_charge").val();
+        	var amount = parseInt($("#modal_charge_balance_amount").val());
+        	$.ajax({
+    			url:"http://localhost:8183/balance/info/charge/" + teamid + "/" + sid + "/" +  amount,
+                type:"PUT",
+                contentType: "application/json",
+                success: function(result)
+                {
+                	
+                	get_balance_info();
+                	alert("충전이 완료되었습니다.");
+                	
+                }
+    		});
+        	
+        	$.ajax({
+    			url:"http://localhost:8182/store/info/earnings/" + sid + "/" + amount,
+                type:"PUT",
+                contentType: "application/json",
+                success: function(result)
+                {
+                	
+                }
+    		});
+        	
+        	
+        	var today = new Date();
+        	var year = today.getFullYear();
+        	var month = today.getMonth()+1;
+        	var day = today.getDate();
+        	var sec = today.getSeconds();
+        	
+        	var data = {        			
+        		"id" : "orderid" + year + month + day + sec,
+        		"ordertype" : "1",
+        		"storeid" : sid,
+        		"teamid" : teamid,
+        		"money" : amount,
+        		"orderdate" : ""
+        	};
+        	
+        	$.ajax({
+    			url:"http://localhost:8183/order/info",
+                type:"POST",
+                data: JSON.stringify(data),
+                contentType: "application/json",
+                success: function(result)
+                {
+                	
+                }
+    		});
+        	
+        	
+        	location.reload();
+        	
+        	
+        	
+        }
+        
+        function balance_use()
+        {
+        	///balance/info/charge/{cid}/{sid}/{amount}
+        	var teamid = $("#cid_for_use").val();
+        	var amount = parseInt($("#modal_use_balance_amount").val());
+        	$.ajax({
+    			url:"http://localhost:8183/balance/info/use/" + teamid + "/" + sid + "/" + amount,
+                type:"PUT",
+                contentType: "application/json",
+                success: function(result)
+                {
+                	get_balance_info();
+                	alert("결제가 완료되었습니다.");
+          
+                }
+    		});
+        	
+        	var today = new Date();
+        	var year = today.getFullYear();
+        	var month = today.getMonth()+1;
+        	var day = today.getDate();
+        	var sec = today.getSeconds();
+        	
+        	var data = {        			
+        		"id" : "orderid" + year + month + day + sec,
+        		"ordertype" : "2",
+        		"storeid" : sid,
+        		"teamid" : teamid,
+        		"money" : amount,
+        		"orderdate" : ""
+        	};
+        	
+        	$.ajax({
+    			url:"http://localhost:8183/order/info",
+                type:"POST",
+                data: JSON.stringify(data),
+                contentType: "application/json",
+                success: function(result)
+                {
+                	
+                }
+    		});
+        	location.reload();
+        	event.preventDefault();
+        }
+        
+        function get_balance_info()
+        {
+        	$("#balanceInfoTable").empty();
+        	$.ajax({
+                url:"http://localhost:8183/balance/info/store/" + sid,
+                type:"GET",
+                contentType: "application/json",
+                success: function(result) {
+                    if (result)
+                    {
+                    	$.each(result, function(key,value)
+                    	{
+                    		var teamid = value.cid;
+                    		var totalmoney = value.totalmoney;
+                    		var remainmoney = value.remainmoney;
+                    		var balanceid = value.bid;
+                    		var teamname='';
+                    		$.ajax({
+                    			url:"http://localhost:8181/customer/info/" + teamid,
+                                type:"GET",
+                                contentType: "application/json",
+                                success: function(result)
+                                {
+                                	if(result)
+                                	{
+                                		teamname = result.cname;
+                                		//alert(teamname);
+                                		//alert(storename);
+                                		//alert(money);
+                                		//alert(type);
+                                		//alert(date);
+                                		var temp = "<tr id=\"";
+                                		temp = temp + balanceid + "\"" + ">";
+                                		temp = temp + "<td class=\"text-center\" style=\"font-weight: bold\">"+ teamname +"</td>";
+                                		temp = temp + "<td class=\"text-success text-center\" style=\"font-weight: bold\">"+ remainmoney +"</td>";
+                                		temp = temp + "<td class=\"text-center\" style=\"font-weight: bold\">"+ totalmoney +"</td>";
+                                		temp = temp + "<td class=\"text-center\"><button id=\""+ teamid + "\" type=\"button\" class=\"btn btn-primary btn-sm\" onclick=\"cid_setting_charge(" + "this.id" + ");\" data-toggle=\"modal\" data-target=\"#Balance_Charge_Modal\">충전하기</button></td>";
+                                		temp = temp + "<td class=\"text-center\"><button id=\""+ teamid + "\" type=\"button\" class=\"btn btn-danger btn-sm\" onclick=\"cid_setting_use(" + "this.id" + ");\" data-toggle=\"modal\" data-target=\"#Balance_Use_Modal\">결제하기</button></td>";
+                                		temp = temp + "</tr>"
+                                		$("#balanceInfoTable").append(temp);
+                                	}
+                                }
+                    		});
+                    	});
+
+                    } else {
+                        alert("아이디 또는 비밀번호가 맞지 않습니다.")
+                    }
+                },
+                error: function(error){
+                    alert(error);
+                }
+
+            });
+            event.preventDefault();
+        }
+        
 
         function init_owner_list_team_page()
         {
             get_owner_list_team_page();
             get_owner_list_information_page();
-            datepick();
+            get_balance_info();
 	        event.preventDefault();
         }
 

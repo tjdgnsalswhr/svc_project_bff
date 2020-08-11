@@ -30,14 +30,24 @@ public class OrderInfoService {
         }
     }
     */
+    
+    public List<OrderResponseDTO> getRecentWeekOrkderListByStore(String sid)
+    {
+    	if(orderClient.getRecentWeekOrderListByStore(sid).getStatusCode().is2xxSuccessful())
+    	{
+    		return (List<OrderResponseDTO>) orderClient.getRecentWeekOrderListByStore(sid).getBody();
+    	}
+    	else
+    		return null;
+    }
  
     
-    public List<OrderResponseDTO> ggetRecentWeekOrderList(String cid)
+    public List<OrderResponseDTO> getRecentWeekOrderList(String cid)
     {
     	
     	ResponseEntity<ResponseDto<OrderResponseDTO>> responseDtoResponseEntity = null;
-    	log.info(orderClient.getAllBalanceByCustomer(cid).getBody().toString());
-    	if(orderClient.getAllBalanceByCustomer(cid).getStatusCode().is2xxSuccessful())
+    	log.info(orderClient.getRecentWeekOrderList(cid).getBody().toString());
+    	if(orderClient.getRecentWeekOrderList(cid).getStatusCode().is2xxSuccessful())
     	{
     		return (List<OrderResponseDTO>) orderClient.getRecentWeekOrderList(cid).getBody();
     	}

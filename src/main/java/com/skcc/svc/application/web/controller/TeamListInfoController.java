@@ -37,27 +37,27 @@ public class TeamListInfoController {
     public ModelAndView TeamListStorePage(Model model, @PathVariable String cid){
     	List<BalanceInfoResponseDTO> balanceInfoList = balanceInfoService.getAllBalanceByCustomer(cid);
     	List<String> storeNameList = new ArrayList<>();
-    	List<OrderResponseDTO> orderInfoList = orderInfoService.ggetRecentWeekOrderList(cid);
+    	//List<OrderResponseDTO> orderInfoList = orderInfoService.getRecentWeekOrderList(cid);
     	for(int i=0; i<balanceInfoList.size(); i++)
     	{
     		BalanceInfoResponseDTO balanceInfo = balanceInfoList.get(i);
     		StoreResponseDTO store = storeInfoService.getOneStore(balanceInfo.getSid());
     		storeNameList.add(store.getStorename());
     	}
-    	
+    	/*
     	List<String> storeIdListForOrder = new ArrayList<>();
     	for(int j=0; j<orderInfoList.size(); j++)
     	{
     		OrderResponseDTO order = orderInfoList.get(j);
     		storeIdListForOrder.add(order.getStoreid());
     	}
-    	
+    	*/
     	
     	CustomerResponseDTO customer = customerService.getOneCustomer(cid);
         ModelAndView modelAndView = new ModelAndView("team/team_list_info");
         //modelAndView.addObject("customerNameListForOrder", customerNameListForOrder);
-        modelAndView.addObject("storeIdListForOrder", storeIdListForOrder);
-        modelAndView.addObject("orderInfoList", orderInfoList);
+        //modelAndView.addObject("storeIdListForOrder", storeIdListForOrder);
+        //modelAndView.addObject("orderInfoList", orderInfoList);
         modelAndView.addObject("balanceInfoList", balanceInfoList);
         modelAndView.addObject("customerInfo", customer);
         modelAndView.addObject("storeNameList", storeNameList);

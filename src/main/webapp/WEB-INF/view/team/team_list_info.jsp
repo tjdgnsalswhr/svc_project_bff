@@ -153,18 +153,18 @@
                             	<div class="table-responsive" style="overflow-x: hidden; overflow-y: hidden">
                   					<table class="table">
                     					<thead class="text-danger">
-                      						<th>
+                      						<th class="text-center">
                         						팀이름
                       						</th>
 
-                      						<th>
+                      						<th class="text-center">
                         						가게이름
                       						</th>
 
-                      						<th>
+                      						<th class="text-center">
                         						잔여선불금액
                       						</th>
-                      						<th>
+                      						<th class="text-center">
                         						총선불금액
                      						</th>
                     					</thead>		
@@ -177,10 +177,10 @@
 												                      						
                       						%>
                       						<tr>
-                      							<td><%=customerInfo.getCname()%></td>
-                      							<td><%=storeNameList.get(i) %></td>
-												<td><%=balanceInfo.getRemainmoney()%></td>
-												<td><%=balanceInfo.getTotalmoney()%></td>
+                      							<td class="text-center" style="font-weight: bold"><%=customerInfo.getCname()%></td>
+                      							<td class="text-center" style="font-weight: bold"><%=storeNameList.get(i) %></td>
+												<td class="text-primary text-center" style="font-weight: bold"><%=balanceInfo.getRemainmoney()%></td>
+												<td class="text-success text-center" style="font-weight: bold"><%=balanceInfo.getTotalmoney()%></td>
 											</tr>
 											<%
 											}%>
@@ -334,19 +334,19 @@
                             	<div class="table-responsive" style="overflow-x: hidden; overflow-y: hidden">
                   					<table class="table">
                     					<thead class="text-danger">
-                      						<th>
+                      						<th class="text-center">
                         						팀이름
                       						</th>
-                      						<th>
+                      						<th class="text-center">
                         						가게이름
                       						</th>
-                      						<th>
+                      						<th class="text-center">
                         						금액
                       						</th>
-                      						<th>
+                      						<th class="text-center">
                       							유형
                       						</th>
-                      						<th>
+                      						<th class="text-center">
                         						날짜
                      						</th>
                     					</thead>		
@@ -400,8 +400,7 @@
             </footer>
         </div>
     </div>
-    </div>
-    </div>
+
     <!--   Core JS Files   -->
 
     <script>
@@ -490,6 +489,28 @@
         		var temp = from_time.split(":")[0];
         		if(temp=="12")
         			temp = "00";
+        		else if(temp=="1")
+        			temp = "01";
+        		else if(temp=="2")
+        			temp = "02";
+        		else if(temp=="3")
+        			temp = "03";
+        		else if(temp=="4")
+        			temp = "04";
+        		else if(temp=="5")
+        			temp = "05";
+        		else if(temp=="6")
+        			temp = "06";
+        		else if(temp=="7")
+        			temp = "07";
+        		else if(temp=="8")
+        			temp = "08";
+        		else if(temp=="9")
+        			temp = "09";
+        		else
+        			;
+        		
+        	
         		from_time = temp + ":" + from_time.split(":")[1];
         	}
 
@@ -533,6 +554,26 @@
         		var temp = end_time.split(":")[0];
         		if(temp=="12")
         			temp = "00";
+        		else if(temp=="1")
+        			temp = "01";
+        		else if(temp=="2")
+        			temp = "02";
+        		else if(temp=="3")
+        			temp = "03";
+        		else if(temp=="4")
+        			temp = "04";
+        		else if(temp=="5")
+        			temp = "05";
+        		else if(temp=="6")
+        			temp = "06";
+        		else if(temp=="7")
+        			temp = "07";
+        		else if(temp=="8")
+        			temp = "08";
+        		else if(temp=="9")
+        			temp = "09";
+        		else
+        			;
         		end_time = temp + ":" + end_time.split(":")[1];
         	}
 
@@ -579,19 +620,19 @@
                                 		//alert(date);
                                 		var temp = "<tr id=\"";
                                 		temp = temp + orderid + "\"" + ">";
-                                		temp = temp + "<td>"+ teamname +"</td>";
-                                		temp = temp + "<td>"+ storename +"</td>";
+                                		temp = temp + "<td class=\"text-center\" style=\"font-weight: bold\">"+ teamname +"</td>";
+                                		temp = temp + "<td class=\"text-center\" style=\"font-weight: bold\">"+ storename +"</td>";
                                 		if(type=="1")
                                 		{
-                                			temp = temp + "<td class=\"text-primary\" style=\"font-weight: bold\">"+money+"</td>";
-                                			temp = temp + "<td><button type=\"button\" class=\"btn btn-primary btn-sm\">충전 </button></td>";
+                                			temp = temp + "<td class=\"text-primary text-center\" style=\"font-weight: bold\">"+money+"</td>";
+                                			temp = temp + "<td class=\"text-center\"><button type=\"button\" class=\"btn btn-primary btn-sm\">충전 </button></td>";
                                 		}
                                 		else
                                 		{
-                                			temp = temp + "<td class=\"text-danger\" style=\"font-weight: bold\">"+money+"</td>";
-                                			temp = temp + "<td><button type=\"button\" class=\"btn btn-danger btn-sm\"결제 </button></td>";
+                                			temp = temp + "<td class=\"text-danger text-center\" style=\"font-weight: bold\">"+money+"</td>";
+                                			temp = temp + "<td class=\"text-center\"><button type=\"button\" class=\"btn btn-danger btn-sm\">결제 </button></td>";
                                 		}
-                                		temp = temp + "<td>"+ date +"</td>";
+                                		temp = temp + "<td class=\"text-center\">"+ date +"</td>";
                                 		temp = temp + "</tr>"
                                 		$("#orderListTable").append(temp);
                                 	}

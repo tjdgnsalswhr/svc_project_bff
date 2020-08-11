@@ -955,9 +955,9 @@
             function detail_modal(storeid)
             {
 
-              alert(storeid);
+              //alert(storeid);
               $.ajax({
-                  url:"http://localhost:8182/store/info/" + storeid,
+                  url:"http://localhost:8182/store/info/bystoreid/" + storeid,
                   type:"GET",
                   contentType: "application/json",
                   success: function(result) {

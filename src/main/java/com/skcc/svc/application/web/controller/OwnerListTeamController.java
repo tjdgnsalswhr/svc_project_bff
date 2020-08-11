@@ -36,11 +36,13 @@ public class OwnerListTeamController {
     public ModelAndView TeamListStorePage(Model model, @PathVariable String cid){
     	List<CustomerResponseDTO> TeamList = customerService.getAllCustomerData();
     	CustomerResponseDTO owner = customerService.getOneCustomer(cid);
-    	StoreResponseDTO owstore = storeInfoService.getOneStoreByOwnerid(cid);
+    	StoreResponseDTO owstore = storeInfoService.getOneStoreByOwnerid(cid);  	
+    	String sid = owstore.getSid();
+    	String sname = owstore.getStorename();
     	
     	List<BalanceInfoResponseDTO> balanceInfoList = balanceInfoService.getAllBalanceByStore(owstore.getSid());
     	List<String> customerNameList = new ArrayList<>();
-    	List<OrderResponseDTO> orderInfoList = orderInfoService.ggetRecentWeekOrderList(cid);
+    	List<OrderResponseDTO> orderInfoList = orderInfoService.getRecentWeekOrderList(cid);
     	for(int i=0; i<balanceInfoList.size(); i++)
     	{
     		BalanceInfoResponseDTO balanceInfo = balanceInfoList.get(i);
@@ -53,6 +55,8 @@ public class OwnerListTeamController {
     	modelAndView.addObject("customerNameList", customerNameList);
     	modelAndView.addObject("TeamList", TeamList);
     	modelAndView.addObject("cid", cid);
+    	modelAndView.addObject("sid", sid);
+    	modelAndView.addObject("sname", sname);
     	modelAndView.addObject("owner", owner);
     	
     	/*

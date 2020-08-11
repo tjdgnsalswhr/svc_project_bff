@@ -31,4 +31,7 @@ public interface OrderClient {
 	@GetMapping(value="/balance/info/store/{sid}")
 	public ResponseEntity<List<BalanceInfoResponseDTO>> getAllBalanceByStore(@PathVariable String sid);
 	
+	@GetMapping(value="/order/store/list/{storeid}")
+	public ResponseEntity<List<OrderResponseDTO>> getRecentWeekOrderListByStore(@PathVariable String storeid);
+	
 }
