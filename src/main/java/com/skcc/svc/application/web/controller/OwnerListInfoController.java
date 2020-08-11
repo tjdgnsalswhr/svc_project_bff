@@ -3,7 +3,7 @@ package com.skcc.svc.application.web.controller;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.springframework.beans.factory.annotation.Autowired;
+import org.apache.commons.logging.Log;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -25,17 +25,23 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 @Controller
 @RequiredArgsConstructor
-public class TeamListInfoController {
-	
+public class OwnerListInfoController {
+
     private final BalanceInfoService balanceInfoService;
     private final CustomerService customerService;
     private final StoreInfoService storeInfoService;
-    private final StoreInfoService storeInfoService2;
     private final OrderInfoService orderInfoService;
     
-    @GetMapping("/team/list-info/{cid}")
+    @GetMapping("/owner/list-info/{cid}")
     public ModelAndView TeamListStorePage(Model model, @PathVariable String cid){
-    	List<BalanceInfoResponseDTO> balanceInfoList = balanceInfoService.getAllBalanceByCustomer(cid);
+    	List<CustomerResponseDTO> TeamList = customerService.getAllCustomerData();
+    	CustomerResponseDTO owner = customerService.getOneCustomer(cid);
+    	ModelAndView modelAndView = new ModelAndView("owner/owner_list_info");
+    	modelAndView.addObject("TeamList", TeamList);
+    	modelAndView.addObject("cid", cid);
+    	modelAndView.addObject("owner", owner);
+    	
+    	/*
     	List<String> storeNameList = new ArrayList<>();
     	List<OrderResponseDTO> orderInfoList = orderInfoService.ggetRecentWeekOrderList(cid);
     	for(int i=0; i<balanceInfoList.size(); i++)
@@ -45,23 +51,26 @@ public class TeamListInfoController {
     		storeNameList.add(store.getStorename());
     	}
     	
-    	List<String> storeIdListForOrder = new ArrayList<>();
-    	for(int j=0; j<orderInfoList.size(); j++)
+    	List<String> customerNameListForOrder = new ArrayList<>();
+    	List<String> storeNameListForOrder = new ArrayList<>();
+    	for(int i=0; i<orderInfoList.size(); i++)
     	{
-    		OrderResponseDTO order = orderInfoList.get(j);
-    		storeIdListForOrder.add(order.getStoreid());
+    		OrderResponseDTO order = orderInfoList.get(i);
+    		CustomerResponseDTO cust = customerService.getOneCustomer(order.getTeamid());
+    		//StoreResponseDTO st = storeInfoService.getOneStore(order.getStoreid());
+    		customerNameListForOrder.add(cust.getCname());
+    		//storeNameListForOrder.add(st.getStorename());
     	}
-    	
-    	
-    	CustomerResponseDTO customer = customerService.getOneCustomer(cid);
-        ModelAndView modelAndView = new ModelAndView("team/team_list_info");
+    	*/
+    	//CustomerResponseDTO customer = customerService.getOneCustomer(cid);
+        //ModelAndView modelAndView = new ModelAndView("team/team_list_info");
         //modelAndView.addObject("customerNameListForOrder", customerNameListForOrder);
-        modelAndView.addObject("storeIdListForOrder", storeIdListForOrder);
-        modelAndView.addObject("orderInfoList", orderInfoList);
-        modelAndView.addObject("balanceInfoList", balanceInfoList);
-        modelAndView.addObject("customerInfo", customer);
-        modelAndView.addObject("storeNameList", storeNameList);
-        modelAndView.addObject("cid", cid);
+       // modelAndView.addObject("storeNameListForOrder", storeNameListForOrder);
+        //modelAndView.addObject("orderInfoList", orderInfoList);
+        //modelAndView.addObject("storeNameList", storeNameList);
+        //modelAndView.addObject("balanceInfoList", balanceInfoList);
+       // modelAndView.addObject("customerInfo", customer);
+       // modelAndView.addObject("cid", cid);
         return modelAndView;
     }
 }

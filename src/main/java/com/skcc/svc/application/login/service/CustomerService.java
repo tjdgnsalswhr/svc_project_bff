@@ -18,16 +18,16 @@ public class CustomerService {
     @Autowired
     private CustomerClient customerClient;
 
-    public List<Object> getAllCustomerData(){
+    public List<CustomerResponseDTO> getAllCustomerData(){
         ResponseEntity<ResponseDto<CustomerResponseDTO>> responseDtoResponseEntity = null;
         log.info(customerClient.getAllCustomer().getBody().toString());
         if(customerClient.getAllCustomer().getStatusCode().is2xxSuccessful()){
-            return (List<Object>) customerClient.getAllCustomer().getBody();
+            return (List<CustomerResponseDTO>) customerClient.getAllCustomer().getBody();
         }else{
             return null;
         }
     }
-
+    
     public CustomerResponseDTO getOneCustomer(String cid)
     {
     	ResponseEntity<CustomerResponseDTO> customerResponseDTO = null;

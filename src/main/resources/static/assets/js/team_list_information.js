@@ -120,7 +120,7 @@ function datepick() {
 	//alert(end);
 	$("#pick_start").val(start);
 	$("#pick_end").val(end);
-	choose_datetime();
+	get_choice_date_order();
 
 }
 

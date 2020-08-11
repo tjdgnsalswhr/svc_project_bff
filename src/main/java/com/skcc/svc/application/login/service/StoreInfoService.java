@@ -18,19 +18,6 @@ public class StoreInfoService {
     @Autowired
     private StoreClient storeClient;
     
-    /*
-    public List<Object> getAllData(){
-        ResponseEntity<ResponseDto<CustomerResponseDTO>> responseDtoResponseEntity = null;
-        log.info(customerClient.getAllStore().getBody().toString());
-        if(customerClient.getAllStore().getStatusCode().is2xxSuccessful()){
-            return (List<Object>) customerClient.getAllStore().getBody();
-        }else{
-            return null;
-        }
-    }
-    */
-    
-    
     public List<StoreResponseDTO> getAllStore()
     {
     	
@@ -53,6 +40,18 @@ public class StoreInfoService {
         if(storeClient.getOneStore(sid).getStatusCode().is2xxSuccessful())
         {
             return (StoreResponseDTO) storeClient.getOneStore(sid).getBody();
+        }
+        else
+        	return null;
+    }
+    
+    public StoreResponseDTO getOneStoreByOwnerid(String owid)
+    {
+    	ResponseEntity<StoreResponseDTO> storeResponseDTO = null;
+    	log.info(storeClient.getOneStoreByOwnerId(owid).getBody().toString());
+        if(storeClient.getOneStoreByOwnerId(owid).getStatusCode().is2xxSuccessful())
+        {
+            return (StoreResponseDTO) storeClient.getOneStoreByOwnerId(owid).getBody();
         }
         else
         	return null;

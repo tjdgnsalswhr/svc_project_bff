@@ -1,14 +1,17 @@
 package com.skcc.svc.application.web.controller;
 
-import com.skcc.svc.application.login.service.CustomerService;
-import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
+import java.util.List;
+
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.servlet.ModelAndView;
 
-import java.util.List;
+import com.skcc.svc.application.login.service.CustomerService;
+import com.skcc.svc.application.login.vo.CustomerResponseDTO;
+
+import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
 @Controller
@@ -19,7 +22,7 @@ public class LoginController {
 
     @GetMapping("/login/home")
     public ModelAndView loginPate(Model model){
-        List<Object> customerList = customerService.getAllCustomerData();
+        List<CustomerResponseDTO> customerList = customerService.getAllCustomerData();
 
         ModelAndView modelAndView = new ModelAndView("login/loginhome");
         modelAndView.addObject("custList", customerList);

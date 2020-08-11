@@ -88,7 +88,7 @@
                   <span class="navbar-toggler-bar bar3"></span>
                 </button>
               </div>
-              <a id="menu_title_id" class="navbar-brand text-danger" style="font-weight: bold"><%=customerInfo.getCname()%></a>
+              <a id="menu_title_id" class="navbar-brand text-danger" style="font-weight: bold">환영합니다. "<%=customerInfo.getCname()%>" 님!</a>
             </div>
             <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navigation"
               aria-controls="navigation-index" aria-expanded="false" aria-label="Toggle navigation">
@@ -121,7 +121,7 @@
                   </div>
                 </li>
                 <li class="nav-item">
-                  <a class="nav-link btn-rotate" href="login.html" style="font-weight: bold">
+                  <a class="nav-link btn-rotate" href="../../login/home" style="font-weight: bold">
                     로그아웃&nbsp;
                     <i class="fa fa-sign-out-alt align-baseline"></i>
                     <p>

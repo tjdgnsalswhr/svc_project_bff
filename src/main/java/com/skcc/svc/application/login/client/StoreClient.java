@@ -15,7 +15,10 @@ public interface StoreClient {
     @GetMapping(value="/store/info/all")
     public ResponseEntity<List<StoreResponseDTO>> getAllStore();
     
-    @GetMapping(value="/store/info/{sid}")
-    public ResponseEntity<StoreResponseDTO> getOneStore(@PathVariable String sid);
+    @GetMapping(value="/store/info/bystoreid/{storeId}")
+    public ResponseEntity<StoreResponseDTO> getOneStore(@PathVariable String storeId);
+    
+    @GetMapping(value="/store/info/byowner/{owid}")
+    public ResponseEntity<StoreResponseDTO> getOneStoreByOwnerId(@PathVariable String owid);
     
 }

@@ -164,6 +164,7 @@
                     else
                     {
                         alert("Owner Customer");
+                        location.href = "../owner/list-team/"+cid;
                     }
                 } else {
                     alert("불러오기 실패");

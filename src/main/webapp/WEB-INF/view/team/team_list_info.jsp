@@ -36,9 +36,7 @@
       String cid = (String)request.getAttribute("cid");
       CustomerResponseDTO customerInfo = (CustomerResponseDTO) request.getAttribute("customerInfo");
       List<String> storeNameList = (List<String>) request.getAttribute("storeNameList");
-      List<String> storeNameListForOrder = (List<String>) request.getAttribute("storeNameListForOrder");
-      List<String> customerNameListForOrder = (List<String>) request.getAttribute("customerNameListForOrder");
-      
+      List<String> storeIdListForOrder = (List<String>) request.getAttribute("storeIdListForOrder");
     %>
 
 </head>
@@ -91,7 +89,7 @@
                                 <span class="navbar-toggler-bar bar3"></span>
                             </button>
                         </div>
-                        <a id="list_title_id" class="navbar-brand text-danger" style="font-weight: bold"><%=customerInfo.getCname()%></a>
+                        <a id="list_title_id" class="navbar-brand text-danger" style="font-weight: bold">환영합니다. "<%=customerInfo.getCname()%>" 님!</a>
                     </div>
                     <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navigation"
                         aria-controls="navigation-index" aria-expanded="false" aria-label="Toggle navigation">
@@ -126,7 +124,7 @@
                                 </div>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link btn-rotate" href="login.html" style="font-weight: bold">
+                                <a class="nav-link btn-rotate" href="../../login/home" style="font-weight: bold">
                                     로그아웃&nbsp;
                                     <i class="fa fa-sign-out"></i>
                                     <p>
@@ -325,7 +323,7 @@
 
                                                  <div class="col-md-2 align-self-end">
                                                    <button type='button' class='btn btn-outline-danger'
-                                                            onclick="choose_datetime()"> 조회하기 </button>
+                                                            onclick="get_choice_date_order()"> 조회하기 </button>
                                                    </div>
                                                 </div>
                                    
@@ -339,13 +337,14 @@
                       						<th>
                         						팀이름
                       						</th>
-
                       						<th>
                         						가게이름
                       						</th>
-
                       						<th>
                         						금액
+                      						</th>
+                      						<th>
+                      							유형
                       						</th>
                       						<th>
                         						날짜
@@ -353,9 +352,9 @@
                     					</thead>		
 
 
-                      					<tbody id="past_list">
-
-                    					</tbody>
+                      					<tbody id="orderListTable">
+                      						
+                     					</tbody>
 
                   					</table>
                 				</div>
@@ -406,32 +405,217 @@
     <!--   Core JS Files   -->
 
     <script>
-        var cid = "<%=cid%>";
-        alert(cid);
-        var temp = "<%=balanceInfoList%>";
-        alert(temp);
-        var temp2 = "<%=orderInfoList%>";
-        alert(temp2);
-        var temp3 = "<%=customerNameListForOrder%>";
-        alert(temp3);
-        var temp4 = "<%=storeNameListForOrder%>";
-        alert(temp4);
         
-        function init_team_list_info_page()
-        {
-            get_team_list_store_page();
-            get_team_list_information_page();
-            datepick();
-	        event.preventDefault();
-        }
-
-        function get_team_list_store_page() {
+	    var cid = "<%=cid%>";
+	    alert(cid);
+	    var temp = "<%=balanceInfoList%>";
+	    alert(temp);
+	    var temp2 = "<%=orderInfoList%>";
+	    alert(temp2);
+	    var temp3 = "<%=storeIdListForOrder%>";
+    	
+	    function get_team_list_store_page() {
             document.getElementById("team_list_store_href_id").href = "../list-store/"+cid;
         }
 
         function get_team_list_information_page() {
             document.getElementById("team_list_info_href_id").href = "../list-info/" + cid;
         }
+
+        function init_team_list_info_page()
+        {
+            get_team_list_store_page();
+            get_team_list_information_page();
+            datepick();
+            get_choice_date_order();
+	        event.preventDefault();
+        }
+        
+        function get_choice_date_order()
+        {
+        	$("#orderListTable").empty();
+        	var start_date = $("#pick_start").val();
+        	//alert(start_date);
+        	var end_date = $("#pick_end").val();
+        	//alert(end_date);
+        	var from_date = start_date.split(" ")[0];
+        	//alert(from_date);
+        	var to_date = end_date.split(" ")[0];
+        	//alert(to_date);
+
+        	var from_time = start_date.split(" ")[1];
+        	//alert(from_time);
+        	var end_time = end_date.split(" ")[1];
+        	//alert(end_time);
+
+        	var from_ampm = start_date.split(" ")[2];
+        	var end_ampm = end_date.split(" ")[2];
+
+        	//alert(from_ampm);
+        	//alert(end_ampm);
+
+        	if(from_ampm=="pm")
+        	{
+        		var temp = from_time.split(":")[0];
+        		if(temp=="01")
+        			temp = "13";
+        		else if(temp=="02")
+        			temp = "14";
+        		else if(temp=="03")
+        			temp = "15";
+        		else if(temp=="04")
+        			temp = "16";
+        		else if(temp=="05")
+        			temp = "17";
+        		else if(temp=="06")
+        			temp = "18";
+        		else if(temp=="07")
+        			temp = "19";
+        		else if(temp=="08")
+        			temp = "20";
+        		else if(temp=="09")
+        			temp = "21";
+        		else if(temp=="10")
+        			temp = "22";
+        		else if(temp=="11")
+        			temp = "23";
+
+        		from_time = temp + ":" + from_time.split(":")[1];
+        		//alert(from_time);
+
+        	}
+
+        	if(from_ampm=="am")
+        	{
+        		var temp = from_time.split(":")[0];
+        		if(temp=="12")
+        			temp = "00";
+        		from_time = temp + ":" + from_time.split(":")[1];
+        	}
+
+        	from_time = from_time + ":" + "00";
+
+        	//alert(from_time);
+
+        	if(end_ampm=="pm")
+        	{
+        		var temp = end_time.split(":")[0];
+        		if(temp=="01")
+        			temp = "13";
+        		else if(temp=="02")
+        			temp = "14";
+        		else if(temp=="03")
+        			temp = "15";
+        		else if(temp=="04")
+        			temp = "16";
+        		else if(temp=="05")
+        			temp = "17";
+        		else if(temp=="06")
+        			temp = "18";
+        		else if(temp=="07")
+        			temp = "19";
+        		else if(temp=="08")
+        			temp = "20";
+        		else if(temp=="09")
+        			temp = "21";
+        		else if(temp=="10")
+        			temp = "22";
+        		else if(temp=="11")
+        			temp = "23";
+
+        		end_time = temp + ":" + end_time.split(":")[1];
+        		//alert(end_time);
+
+        	}
+
+        	if(end_ampm=="am")
+        	{
+        		var temp = end_time.split(":")[0];
+        		if(temp=="12")
+        			temp = "00";
+        		end_time = temp + ":" + end_time.split(":")[1];
+        	}
+
+        	end_time = end_time + ":" + "00";
+
+        	//alert(end_time);
+        	
+
+        	from_date = from_date + "T" + from_time;
+        	to_date = to_date + "T" + end_time;
+        	
+        	//LocalDateTime from = LocalDateTime.parse(from_date);
+        	
+  
+            $.ajax({
+                url:"http://localhost:8183/order/teamcustomer/list/" + cid + "/"  +from_date + "/" + to_date,
+                type:"GET",
+                contentType: "application/json",
+                success: function(result) {
+                    if (result)
+                    {
+                    	$.each(result, function(key,value)
+                    	{
+                    		var teamname = "<%=customerInfo.getCname()%>";
+                    		var storeid = value.storeid;
+                    		var money = value.money;
+                    		var date = value.orderdate;
+                    		var type = value.ordertype;
+                    		var orderid = value.orderid;
+                    		var storename='';
+                    		$.ajax({
+                    			url:"http://localhost:8182/store/info/bystoreid/" + storeid,
+                                type:"GET",
+                                contentType: "application/json",
+                                success: function(result)
+                                {
+                                	if(result)
+                                	{
+                                		storename = result.storename;
+                                		//alert(teamname);
+                                		//alert(storename);
+                                		//alert(money);
+                                		//alert(type);
+                                		//alert(date);
+                                		var temp = "<tr id=\"";
+                                		temp = temp + orderid + "\"" + ">";
+                                		temp = temp + "<td>"+ teamname +"</td>";
+                                		temp = temp + "<td>"+ storename +"</td>";
+                                		if(type=="1")
+                                		{
+                                			temp = temp + "<td class=\"text-primary\" style=\"font-weight: bold\">"+money+"</td>";
+                                			temp = temp + "<td><button type=\"button\" class=\"btn btn-primary btn-sm\">충전 </button></td>";
+                                		}
+                                		else
+                                		{
+                                			temp = temp + "<td class=\"text-danger\" style=\"font-weight: bold\">"+money+"</td>";
+                                			temp = temp + "<td><button type=\"button\" class=\"btn btn-danger btn-sm\"결제 </button></td>";
+                                		}
+                                		temp = temp + "<td>"+ date +"</td>";
+                                		temp = temp + "</tr>"
+                                		$("#orderListTable").append(temp);
+                                	}
+                                }
+                    		});
+                    	});
+
+                    } else {
+                        alert("아이디 또는 비밀번호가 맞지 않습니다.")
+                    }
+                },
+                error: function(error){
+                    alert(error);
+                }
+
+            });
+            event.preventDefault();
+            //$("#StoreModal").modal('show');
+
+	
+
+        }
+
+        
     </script>
 
 

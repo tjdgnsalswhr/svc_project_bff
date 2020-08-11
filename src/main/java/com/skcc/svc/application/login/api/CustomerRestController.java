@@ -19,7 +19,7 @@ public class CustomerRestController {
     CustomerService customerService;
 
     @GetMapping("/all")
-    public List<Object> getAllInfo(){
+    public List<CustomerResponseDTO> getAllInfo(){
         return customerService.getAllCustomerData();
     }
 }
