@@ -8,7 +8,7 @@
 
 <head>
 
-    <meta charset="utf-8">
+
     <meta name="viewport" content="width=device-width,initial-scale=1">
     <title>SVC with SK</title>
     <link rel="stylesheet" href="/resources/assets/css/login.css">
@@ -34,6 +34,7 @@
 	  String sname = (String)request.getAttribute("sname");
       response.addHeader("Access-Control-Allow-Origin", "*");
       response.setHeader("Access-Control-Allow-Headers", "origin, x-requested-with, content-type, accept");
+
       CustomerResponseDTO ownerInfo = (CustomerResponseDTO) request.getAttribute("owner");
       List<String> customerNameList = (List<String>) request.getAttribute("customerNameList");
       List<BalanceInfoResponseDTO> balanceInfoList = (List<BalanceInfoResponseDTO>) request.getAttribute("balanceInfoList");
@@ -151,8 +152,8 @@
                                 <div class="row">
                                 	<div class="col-md-12 align-self-center pull-right">
                     					<form class="col-md-12 form-inline align-self-center">
-                      						<input class="form-control mr-lg-2" type="text" placeholder="Search" aria-label="Search">
-                      						<button class="btn btn-outline-success btn-round btn-sm my-0" type="button">Search</button>
+                      						<input id="serching_team" onkeypress="if(event.keyCode==13){search_team_list();}" class="form-control mr-lg-2" type="text" placeholder="Search" aria-label="Search">
+                      						<button id="search_button" class="btn btn-outline-success btn-round btn-sm my-0" type="button" onclick="search_team_list();">Search</button>
                     					</form>
                   					</div>
                                  
@@ -502,6 +503,74 @@
             get_balance_info();
 	        event.preventDefault();
         }
+        
+        function search_team_list()
+        {
+        	var target = $("#serching_team").val();
+        	if(target=="")
+        		get_balance_info();
+        	else
+        	{
+        		$("#balanceInfoTable").empty();
+            	$.ajax({
+                    url:"http://localhost:8183/balance/info/store/" + sid,
+                    type:"GET",
+                    contentType: "application/json",
+                    success: function(result) {
+                        if (result)
+                        {
+                        	$.each(result, function(key,value)
+                        	{
+                        		var teamid = value.cid;
+                        		var totalmoney = value.totalmoney;
+                        		var remainmoney = value.remainmoney;
+                        		var balanceid = value.bid;
+                        		var teamname='';
+                        		$.ajax({
+                        			url:"http://localhost:8181/customer/info/" + teamid,
+                                    type:"GET",
+                                    contentType: "application/json",
+                                    success: function(result)
+                                    {
+                                    	if(result)
+                                    	{
+                                    		teamname = result.cname;
+                                    		//alert(teamname);
+                                    		//alert(storename);
+                                    		//alert(money);
+                                    		//alert(type);
+                                    		//alert(date);
+                                    		if(teamname.search(target)!=-1)
+                                    		{
+	                                    		var temp = "<tr id=\"";
+	                                    		temp = temp + balanceid + "\"" + ">";
+	                                    		temp = temp + "<td class=\"text-center\" style=\"font-weight: bold\">"+ teamname +"</td>";
+	                                    		temp = temp + "<td class=\"text-success text-center\" style=\"font-weight: bold\">"+ remainmoney +"</td>";
+	                                    		temp = temp + "<td class=\"text-center\" style=\"font-weight: bold\">"+ totalmoney +"</td>";
+	                                    		temp = temp + "<td class=\"text-center\"><button id=\""+ teamid + "\" type=\"button\" class=\"btn btn-primary btn-sm\" onclick=\"cid_setting_charge(" + "this.id" + ");\" data-toggle=\"modal\" data-target=\"#Balance_Charge_Modal\">충전하기</button></td>";
+	                                    		temp = temp + "<td class=\"text-center\"><button id=\""+ teamid + "\" type=\"button\" class=\"btn btn-danger btn-sm\" onclick=\"cid_setting_use(" + "this.id" + ");\" data-toggle=\"modal\" data-target=\"#Balance_Use_Modal\">결제하기</button></td>";
+	                                    		temp = temp + "</tr>"
+	                                    		$("#balanceInfoTable").append(temp);
+                                    		}
+                                    	}
+                                    }
+                        		});
+                        	});
+
+                        } else {
+                            alert("아이디 또는 비밀번호가 맞지 않습니다.")
+                        }
+                    },
+                    error: function(error){
+                        alert(error);
+                    }
+
+                });
+                event.preventDefault();
+        	}
+        		
+        }
+        
 
         function get_owner_list_team_page() {
             document.getElementById("owner_list_team_href_id").href = "../list-store/"+cid;

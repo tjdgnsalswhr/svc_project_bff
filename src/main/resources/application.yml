@@ -15,6 +15,13 @@ spring:
     static-path-pattern: /resources/**
   application:
     name: svc-project-web-bff
+  
+  http:
+      encoding:
+         charset : UTF-8
+         enabled : true
+         force : true
+  
 
 feign:
   customer-api:

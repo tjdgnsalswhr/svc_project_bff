@@ -7,7 +7,7 @@
 <html>
 <head>
 
-    <meta charset="utf-8">
+
     <meta name="viewport" content="width=device-width,initial-scale=1">
     <title>SVC with SK</title>
     <link rel="stylesheet" href="/resources/assets/css/login.css">
@@ -32,6 +32,9 @@
     	List<StoreResponseDTO> storeList = (List<StoreResponseDTO>) request.getAttribute("storeList");
         response.addHeader("Access-Control-Allow-Origin", "*");
         response.setHeader("Access-Control-Allow-Headers", "origin, x-requested-with, content-type, accept");
+  
+
+
         String cid = (String)request.getAttribute("cid");
         CustomerResponseDTO customerInfo = (CustomerResponseDTO) request.getAttribute("customerInfo");
         
@@ -923,7 +926,7 @@
            	//alert(temp);
             
             const storeList = "<%=storeList.get(0)%>";
-            alert(storeList);
+            //alert(storeList);
             function init_team_list_store_page() {
             //var tmptmp = location.href.split("html")[1];
             /*
