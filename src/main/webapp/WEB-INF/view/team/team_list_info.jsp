@@ -427,7 +427,7 @@
             get_team_list_store_page();
             get_team_list_information_page();
             datepick();
-            get_choice_date_order();
+            
 	        event.preventDefault();
         }
         
@@ -489,6 +489,8 @@
         	{
         		var temp = from_time.split(":")[0];
         		if(temp=="12")
+        			temp = "00";
+        		else if(temp=="0")
         			temp = "00";
         		else if(temp=="1")
         			temp = "01";
@@ -554,6 +556,8 @@
         	{
         		var temp = end_time.split(":")[0];
         		if(temp=="12")
+        			temp = "00";
+        		else if(temp=="0")
         			temp = "00";
         		else if(temp=="1")
         			temp = "01";
@@ -633,7 +637,15 @@
                                 			temp = temp + "<td class=\"text-danger text-center\" style=\"font-weight: bold\">"+money+"</td>";
                                 			temp = temp + "<td class=\"text-center\"><button type=\"button\" class=\"btn btn-danger btn-sm\">결제 </button></td>";
                                 		}
-                                		temp = temp + "<td class=\"text-center\">"+ date +"</td>";
+                                		var tempdate = date.split("T")[0];
+                                		var temptime = date.split("T")[1];
+                                		var year = tempdate.split("-")[0];
+                                		var month = tempdate.split("-")[1];
+                                		var day = tempdate.split("-")[2];
+                                		var hour = temptime.split(":")[0];
+                                		var min = temptime.split(":")[1];
+                                		var inputdate = year + "년 " + month + "월 " + day + "일  " + hour + "시 " + min + "분";
+                                		temp = temp + "<td class=\"text-center\">"+ inputdate +"</td>";
                                 		temp = temp + "</tr>"
                                 		$("#orderListTable").append(temp);
                                 	}

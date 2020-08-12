@@ -157,13 +157,13 @@
                     //var customer = JSON.parse(result);
                     if(result.code=="1") //팀이면
                     {
-                        alert("Team Customer");
+                        //alert("Team Customer");
                         //window.location.href = "http://localhost:7070/team/list-store/"+cid;
                         location.href = "../team/list-store/"+cid;
                     }
                     else
                     {
-                        alert("Owner Customer");
+                        //alert("Owner Customer");
                         location.href = "../owner/list-team/"+cid;
                     }
                 } else {

@@ -436,7 +436,7 @@
                                   
                                   <div class='card-header'>
                                     <div class="image">
-                                      <img class='embed-responsive' src="/resources/assets/img/SVC로고4.png" alt='...'>
+                                      <img class='embed-responsive' src="<%=store.getImgurl()%>" alt='...'>
                                     </div>
                                   </div>
     
@@ -590,7 +590,7 @@
                                   
                                   <div class='card-header'>
                                     <div class="image">
-                                      <img class='embed-responsive' src="/resources/assets/img/SVC로고4.png" alt='...'>
+                                      <img class='embed-responsive' src="<%=store.getImgurl()%>" alt='...'>
                                     </div>
                                   </div>
     
@@ -668,7 +668,7 @@
                                   
                                   <div class='card-header'>
                                     <div class="image">
-                                      <img class='embed-responsive' src="/resources/assets/img/SVC로고4.png" alt='...'>
+                                      <img class='embed-responsive' src="<%=store.getImgurl()%>" alt='...'>
                                     </div>
                                   </div>
     
@@ -748,7 +748,7 @@
                                   
                                   <div class='card-header'>
                                     <div class="image">
-                                      <img class='embed-responsive' src="/resources/assets/img/SVC로고4.png" alt='...'>
+                                      <img class='embed-responsive' src="<%=store.getImgurl()%>" alt='...'>
                                     </div>
                                   </div>
     
@@ -826,7 +826,7 @@
                                   
                                   <div class='card-header'>
                                     <div class="image">
-                                      <img class='embed-responsive' src="/resources/assets/img/SVC로고4.png" alt='...'>
+                                      <img class='embed-responsive' src="<%=store.getImgurl()%>" alt='...'>
                                     </div>
                                   </div>
     
@@ -970,6 +970,8 @@
                         $("#modal_store_address").val(result.address);
                         $("#modal_store_phone").val(result.phonenumber);
                         $("#modal_store_more_info").val(result.openinfo);
+                        $("#modal_menu_picture").attr("src", result.imgurl);
+                        
 
                       } else {
                           alert("아이디 또는 비밀번호가 맞지 않습니다.")

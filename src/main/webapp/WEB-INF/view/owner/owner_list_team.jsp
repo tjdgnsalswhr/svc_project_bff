@@ -90,7 +90,7 @@
                                 <span class="navbar-toggler-bar bar3"></span>
                             </button>
                         </div>
-                        <a id="list_title_id" class="navbar-brand text-danger" style="font-weight: bold">환영합니다. "<%=ownerInfo.getCname()%>님!</a>
+                        <a id="list_title_id" class="navbar-brand text-danger" style="font-weight: bold">환영합니다. "<%=ownerInfo.getCname()%>" 님!</a>
                     </div>
                     <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navigation"
                         aria-controls="navigation-index" aria-expanded="false" aria-label="Toggle navigation">
@@ -150,15 +150,18 @@
                                 <h4 class="card-title">팀 목록</h4>
                                 <hr class="one">
                                 <div class="row">
-                                	<div class="col-md-12 align-self-center pull-right">
+                                	<div class="col-md-6 align-self-end pull-right">
                     					<form class="col-md-12 form-inline align-self-center">
                       						<input id="serching_team" onkeypress="if(event.keyCode==13){search_team_list();}" class="form-control mr-lg-2" type="text" placeholder="Search" aria-label="Search">
                       						<button id="search_button" class="btn btn-outline-success btn-round btn-sm my-0" type="button" onclick="search_team_list();">Search</button>
                     					</form>
                   					</div>
-                                 
-                                    <div class="col-md-4 align-self-end d-none">
+                                 	<div class="col-md-4 align-self-end invisible">
                                        <button type='button' class='btn btn-outline-success'> 팀 추가 </button>
+                                    </div>
+                                 	
+                                    <div class="col-md-2 align-self-end">
+                                       <button type='button' class='btn btn-outline-success' data-toggle="modal" data-target="#Team_Add_Modal"> 팀 추가 </button>
                                     </div>
                                 </div>
                                 
@@ -199,6 +202,43 @@
             </div>
             
              <!--------------잔액 충전 모달창--------------------->
+             	<div class="modal fade" id="Team_Add_Modal" tabindex="-1" role="dialog" aria-labelledby="TeamAddModalLabel" aria-hidden="true">
+                  <div class="modal-dialog">
+                    <div class="modal-content">
+                    
+                   	  <div class="modal-header">
+                        <h4 class="pull-right modal-title text-success" style="font-weight: bold">고객 추가</h4>
+                      </div>
+                      <div class="modal-body">
+                        <div class="col-md-12">
+                          <div class="form-group">
+                            <label class="text-success" style="font-weight: bold">팀 이름 입력</label>
+                            <input id="modal_add_team_input" type="text" class="form-control">
+                          </div>
+                          <br>
+                        </div>
+                        
+                        <div class="col-md-12 d-none">
+                            <div class="form-group">
+                              <label class="text-primary" style="font-weight: bold">메뉴가격</label>
+                              <input id="" onkeypress="if(event.keyCode==13){team_add();}"  type="text" class="form-control">
+                            </div>
+                        </div>
+                          
+                        <div class="col-md-12">
+                          <br>
+                          <h6 style="font-weight: bold">해당 팀을 고객으로 추가하시겠습니까?</h6>
+                        </div>
+                      </div>
+                      <div class="modal-footer" style="height: 60px;">
+                        <button style="font-weight: bold" type="button" class="btn btn-default" data-dismiss="modal">취소</button>
+                        <button id="team_add_button" style="font-weight: bold" type="button" class="btn btn-success" onclick="team_add();">확인</button>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+             
+             
 
 
                 <div class="modal fade" id="Balance_Charge_Modal" tabindex="-1" role="dialog" aria-labelledby="ChargeModalLabel" aria-hidden="true">
@@ -220,7 +260,7 @@
                         <div class="col-md-12 d-none">
                             <div class="form-group">
                               <label class="text-primary" style="font-weight: bold">메뉴가격</label>
-                              <input id="cid_for_charge" type="text" class="form-control">
+                              <input id="cid_for_charge" onkeypress="if(event.keyCode==13){balance_charge();}" type="text" class="form-control">
                             </div>
                         </div>
                           
@@ -256,7 +296,7 @@
                         <div class="col-md-12 d-none">
                             <div class="form-group">
                               <label class="text-primary" style="font-weight: bold">메뉴가격</label>
-                              <input id="cid_for_use" type="text" class="form-control">
+                              <input id="cid_for_use" onkeypress="if(event.keyCode==13){balance_use();}" type="text" class="form-control">
                             </div>
                         </div>
                         
@@ -319,6 +359,76 @@
         var sid = "<%=sid%>";
         var storename = "<%=sname%>";
         
+        function team_add()
+        {
+        	var teamname = $("#modal_add_team_input").val();
+        	var teamid = "";
+        	$.ajax({
+    			url:"http://localhost:8181/customer/info/Byname/" + teamname,
+                type:"GET",
+                contentType: "application/json",
+                success: function(result)
+                {
+                	if(result!="")
+                	{
+                		teamid = result.cid;
+                		$.ajax({
+                			url:"http://localhost:8183/balance/info/" + teamid + "/" + sid,
+                            type:"GET",
+                            contentType: "application/json",
+                            success: function(result)
+                            {
+                            	if(result!="")
+                            	{
+                            		alert("이미 해당 고객이 있습니다.");
+                            	}
+                            	else
+                            	{
+                            		var today = new Date();
+                                	var year = today.getFullYear();
+                                	var month = today.getMonth()+1;
+                                	var day = today.getDate();
+                                	var sec = today.getSeconds();
+                                	
+                                	var temp = 0;
+                                	
+                                	var data = {        			
+                                		"bid" : "balanceid" + year + month + day + sec,
+                                		"cid" : teamid,
+                                		"sid" : sid,
+                                		"totalmoney" : 0,
+                                		"remainmoney" : 0
+                                	};
+                            		$.ajax({
+                            			url:"http://localhost:8183/balance/info/add",
+                                        type:"POST",
+                                        data: JSON.stringify(data),
+                                        contentType: "application/json",
+                                        success: function(result)
+                                        {
+                                        	if(result)
+                                        		alert("고객이 추가 되었습니다.")
+                                        }
+                            		});
+                            	}
+                            	
+                            }
+                		});
+                		
+                	}
+                	else
+                	{
+                		alert("해당 하는 이름의 팀이 없습니다.");
+                	}
+                }
+    		});
+        	
+        	location.reload();
+        	
+        	
+        }
+        
+        
         function cid_setting_charge(teamid)
         {
         	$("#cid_for_charge").val(teamid);
@@ -334,7 +444,19 @@
         {
         	///balance/info/charge/{cid}/{sid}/{amount}
         	var teamid = $("#cid_for_charge").val();
-        	var amount = parseInt($("#modal_charge_balance_amount").val());
+        	var amount = $("#modal_charge_balance_amount").val();
+        	var money = amount;
+        	$.ajax({
+    			url:"http://localhost:8182/billing/info/earnings/" + sid + "/" + money,
+                type:"PUT",
+                contentType: "application/json",
+                success: function(result)
+                {
+                	if(result)
+                		;
+                }
+    		});
+        	
         	$.ajax({
     			url:"http://localhost:8183/balance/info/charge/" + teamid + "/" + sid + "/" +  amount,
                 type:"PUT",
@@ -342,22 +464,14 @@
                 success: function(result)
                 {
                 	
-                	get_balance_info();
                 	alert("충전이 완료되었습니다.");
                 	
                 }
     		});
         	
-        	$.ajax({
-    			url:"http://localhost:8182/store/info/earnings/" + sid + "/" + amount,
-                type:"PUT",
-                contentType: "application/json",
-                success: function(result)
-                {
-                	
-                }
-    		});
         	
+        	
+        
         	
         	var today = new Date();
         	var year = today.getFullYear();
@@ -573,7 +687,7 @@
         
 
         function get_owner_list_team_page() {
-            document.getElementById("owner_list_team_href_id").href = "../list-store/"+cid;
+            document.getElementById("owner_list_team_href_id").href = "../list-team/"+cid;
         }
 
         function get_owner_list_information_page() {

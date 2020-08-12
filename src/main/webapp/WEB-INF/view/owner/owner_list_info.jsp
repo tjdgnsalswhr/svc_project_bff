@@ -152,7 +152,7 @@
                                 		<div class="col-md-3">
                                 			<div class="form-group">
                                 				<label>이번달 수익</label>
-                                				<input id="month_earnings" type="text" class="form-control text-success" autocomplete="off">
+                                				<input id="month_earnings" style="font-weight: bold" type="text" class="form-control text-success" autocomplete="off">
                                 			</div>
                                 		</div>
                                
@@ -393,7 +393,7 @@
                 {
                 	if(result)
                 	{
-                		alert(result.earnings);
+                		//alert(result.earnings);
                 		$("#month_earnings").val(result.earnings);
                 		
                 	}
@@ -459,6 +459,8 @@
         		var temp = from_time.split(":")[0];
         		if(temp=="12")
         			temp = "00";
+        		else if(temp=="0")
+        			temp = "00";
         		else if(temp=="1")
         			temp = "01";
         		else if(temp=="2")
@@ -522,6 +524,8 @@
         		var temp = end_time.split(":")[0];
         		if(temp=="12")
         			temp = "00";
+        		else if(temp=="0")
+        			temp = "00";
         		else if(temp=="1")
         			temp = "01";
         		else if(temp=="2")
@@ -581,32 +585,38 @@
                                 	if(result)
                                 	{
                                 		teamname = result.cname;
-                                		//alert(teamname);
-                                		//alert(storename);
-                                		//alert(money);
-                                		//alert(type);
-                                		//alert(date);
                                 		
+                                		var temp = "<tr id=\"";
+			                    		temp = temp + orderid + "\"" + ">";
+			                    		temp = temp + "<td class=\"text-center\" style=\"font-weight: bold\">"+ storename +"</td>";
+			                    		temp = temp + "<td class=\"text-center\" style=\"font-weight: bold\">"+ teamname +"</td>";
+			                    		if(type=="1")
+			                    		{
+			                    			temp = temp + "<td class=\"text-primary text-center\" style=\"font-weight: bold\">"+money+"</td>";
+			                    			temp = temp + "<td class=\"text-center\"><button type=\"button\" class=\"btn btn-primary btn-sm\">충전 </button></td>";
+			                    		}
+			                    		else
+			                    		{
+			                    			temp = temp + "<td class=\"text-danger text-center\" style=\"font-weight: bold\">"+money+"</td>";
+			                    			temp = temp + "<td class=\"text-center\"><button type=\"button\" class=\"btn btn-danger btn-sm\">결제 </button></td>";
+			                    		}
+			                    		
+			                    		var tempdate = date.split("T")[0];
+			                    		var temptime = date.split("T")[1];
+			                    		var year = tempdate.split("-")[0];
+			                    		var month = tempdate.split("-")[1];
+			                    		var day = tempdate.split("-")[2];
+			                    		var hour = temptime.split(":")[0];
+			                    		var min = temptime.split(":")[1];
+			                    		var inputdate = year + "년 " + month + "월 " + day + "일  " + hour + "시 " + min + "분";
+			                    		
+			                    		temp = temp + "<td class=\"text-center\">"+ inputdate +"</td>";
+			                    		temp = temp + "</tr>"
+			                    		$("#orderListTable").append(temp);
                                 	}
                                 }
                     		});
-                    		var temp = "<tr id=\"";
-                    		temp = temp + orderid + "\"" + ">";
-                    		temp = temp + "<td class=\"text-center\" style=\"font-weight: bold\">"+ storename +"</td>";
-                    		temp = temp + "<td class=\"text-center\" style=\"font-weight: bold\">"+ teamname +"</td>";
-                    		if(type=="1")
-                    		{
-                    			temp = temp + "<td class=\"text-primary text-center\" style=\"font-weight: bold\">"+money+"</td>";
-                    			temp = temp + "<td class=\"text-center\"><button type=\"button\" class=\"btn btn-primary btn-sm\">충전 </button></td>";
-                    		}
-                    		else
-                    		{
-                    			temp = temp + "<td class=\"text-danger text-center\" style=\"font-weight: bold\">"+money+"</td>";
-                    			temp = temp + "<td class=\"text-center\"><button type=\"button\" class=\"btn btn-danger btn-sm\">결제 </button></td>";
-                    		}
-                    		temp = temp + "<td class=\"text-center\">"+ date +"</td>";
-                    		temp = temp + "</tr>"
-                    		$("#orderListTable").append(temp);
+                    		
                     	});
 
                     } else {

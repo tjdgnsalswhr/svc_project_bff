@@ -22,4 +22,5 @@ public class StoreResponseDTO {
 	String phonenumber;
 	int storecode;
 	int earnings;
+	String imgurl;
 }
