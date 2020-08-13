@@ -8,7 +8,7 @@
 
 <head>
 
-
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <meta name="viewport" content="width=device-width,initial-scale=1">
     <title>SVC with SK</title>
     <link rel="stylesheet" href="/resources/assets/css/login.css">
@@ -28,6 +28,7 @@
     <script src="/resources/assets/js/team_list_information.js"></script>
 
     <%
+      request.setCharacterEncoding("UTF-8");
       List<CustomerResponseDTO> teamList = (List<CustomerResponseDTO>) request.getAttribute("TeamList");
       String cid = (String)request.getAttribute("cid");
       String sid = (String)request.getAttribute("sid");

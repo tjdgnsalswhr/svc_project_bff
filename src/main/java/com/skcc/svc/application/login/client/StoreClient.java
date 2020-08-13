@@ -12,7 +12,7 @@ import com.skcc.svc.application.login.vo.StoreResponseDTO;
 @FeignClient(name = "store-api", url="${feign.store-api.url}")
 public interface StoreClient {
 	
-    @GetMapping(value="/store/info/all")
+    @GetMapping(value="/store/info/all", produces="application/json; charset=utf8")
     public ResponseEntity<List<StoreResponseDTO>> getAllStore();
     
     @GetMapping(value="/store/info/bystoreid/{storeId}")

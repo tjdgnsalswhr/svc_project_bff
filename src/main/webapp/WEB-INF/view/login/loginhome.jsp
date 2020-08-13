@@ -6,7 +6,7 @@
 <html>
 <head>
 
-    <meta charset="utf-8">
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <meta name="viewport" content="width=device-width,initial-scale=1">
     <title>SVC with SK</title>
     <link rel="stylesheet" href="/resources/assets/css/login.css">
@@ -16,6 +16,7 @@
         //String tmbrCustDomain= (String)request.getAttribute("tmbrCustDomain");
         response.addHeader("Access-Control-Allow-Origin", "*");
         response.setHeader("Access-Control-Allow-Headers", "origin, x-requested-with, content-type, accept");
+        request.setCharacterEncoding("UTF-8");
         List customerList = (List) request.getAttribute("custList");
         String cid;
 

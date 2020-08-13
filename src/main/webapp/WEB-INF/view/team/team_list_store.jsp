@@ -7,7 +7,7 @@
 <html>
 <head>
 
-
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <meta name="viewport" content="width=device-width,initial-scale=1">
     <title>SVC with SK</title>
     <link rel="stylesheet" href="/resources/assets/css/login.css">
@@ -28,6 +28,7 @@
     <script src="/resources/assets/js/team_list_store.js"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
     <%
+    	request.setCharacterEncoding("UTF-8");
         //String tmbrCustDomain= (String)request.getAttribute("tmbrCustDomain");
     	List<StoreResponseDTO> storeList = (List<StoreResponseDTO>) request.getAttribute("storeList");
         response.addHeader("Access-Control-Allow-Origin", "*");
